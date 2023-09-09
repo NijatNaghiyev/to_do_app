@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+import 'dart:async';
 
+import 'package:alarm/alarm.dart';
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
+import 'package:codelandia_to_do_riverpod/screens/home_screen/methods/alarm_methods.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/custom_app_bar.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/filter_buttons.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/float_action_button.dart';
@@ -18,11 +20,27 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
+  static StreamSubscription? subscription;
+
   final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    subscription ??= Alarm.ringStream.stream.listen(
+      (alarmSettings) => navigateToRingScreen(context, alarmSettings),
+    );
+  }
+
+  @override
+  void dispose() {
+    subscription?.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final todoList = ref.watch(todoListProvider);
-    // var reversedTodoList = List.from(todoList);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -35,10 +53,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             child: Column(
               children: [
-                CustomAppBar(),
+                const CustomAppBar(),
                 kSizedBoxH10,
-                WelcomeBarWidget(),
-                FilterButtons(),
+                const WelcomeBarWidget(),
+                const FilterButtons(),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -55,7 +73,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ),
       ),
-      floatingActionButton: FloatActionButton(),
+      floatingActionButton: const FloatActionButton(),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../constant/colors.dart';
-import '../../../providers/selected_color.dart';
-import '../../../providers/selected_date.dart';
 import '../../home_screen/home_screen.dart';
 import 'build_reset_save_data.dart';
 
@@ -13,11 +10,11 @@ Future<void> buildShowDialogNewTodo(BuildContext context, WidgetRef ref) {
     context: context,
     builder: (BuildContext dialogContext) {
       return AlertDialog.adaptive(
-        title: Text('Discard'),
-        content: Text('Do you want to discard this?'),
+        title: const Text('Discard'),
+        content: const Text('Do you want to discard this?'),
         actions: <Widget>[
           TextButton(
-            child: Text(
+            child: const Text(
               'Discard',
               style: TextStyle(
                 color: Colors.black,
@@ -25,17 +22,18 @@ Future<void> buildShowDialogNewTodo(BuildContext context, WidgetRef ref) {
             ),
             onPressed: () {
               buildResetSaveData(ref);
-
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const HomeScreen(),
-                ),
-              );
+              Navigator.pop(context);
+              Navigator.pop(context);
+              // Navigator.pushReplacement(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => const HomeScreen(),
+              //   ),
+              // );
             },
           ),
           ElevatedButton(
-            style: ButtonStyle(
+            style: const ButtonStyle(
               shape: MaterialStatePropertyAll(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
@@ -50,7 +48,7 @@ Future<void> buildShowDialogNewTodo(BuildContext context, WidgetRef ref) {
             onPressed: () {
               Navigator.of(dialogContext).pop();
             },
-            child: Text(
+            child: const Text(
               'Cancel',
             ),
           ),

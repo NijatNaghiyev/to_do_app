@@ -7,11 +7,13 @@ import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
 import 'package:codelandia_to_do_riverpod/providers/selected_color.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/home_screen.dart';
+import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/ToDoForm.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/tags_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/model/tag_model.dart';
+import '../../providers/form_providers.dart';
 import '../../providers/selected_date.dart';
 import '../../providers/selected_time.dart';
 import '../../providers/todo_list_provider.dart';
@@ -37,6 +39,8 @@ class NewTodo extends ConsumerStatefulWidget {
 class _NewTodoState extends ConsumerState<NewTodo> {
   final _formKey = GlobalKey<FormState>();
 
+  bool loading = false;
+
   late bool creating;
 
   String title = '';
@@ -47,8 +51,13 @@ class _NewTodoState extends ConsumerState<NewTodo> {
   TimeOfDay? alarm;
   AlarmSettings? alarmSettings;
 
+  /// Save To Do
   Future<void> saveToDo() async {
     final todoList = ref.watch(todoListProvider.notifier);
+    title = ref.watch(titleProvider.notifier).state;
+    description = ref.watch(descriptionProvider);
+
+    /// Validate form
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
       color = ref.watch(selectedColor.notifier).state;
@@ -56,6 +65,10 @@ class _NewTodoState extends ConsumerState<NewTodo> {
           .watch(tagsListProvider)
           .where((element) => element.isAdded == true)
           .toList();
+
+      setAlarm();
+
+      /// Add new To Do
       todoList.add(
         TodoModel(
           title: title,
@@ -67,6 +80,7 @@ class _NewTodoState extends ConsumerState<NewTodo> {
           alarmSettings: alarmSettings,
         ),
       );
+
       _formKey.currentState!.reset();
 
       buildResetSaveData(ref);
@@ -79,35 +93,61 @@ class _NewTodoState extends ConsumerState<NewTodo> {
     }
   }
 
-  // AlarmSettings? alarmSettingsFunc() {
-  //   if (ref.watch(selectedDateProvider.notifier).state != null) {
-  //     alarmSettings = AlarmSettings(
-  //       id: DateTime.now().millisecondsSinceEpoch % 100000,
-  //       dateTime: ref.watch(selectedDateProvider.notifier).state!.add(
-  //             Duration(
-  //               hours: ref.watch(selectedTimeProvider.notifier).state!.hour,
-  //               minutes: ref.watch(selectedTimeProvider.notifier).state!.minute,
-  //             ),
-  //           ),
-  //       assetAudioPath: 'assets/alarms/ringtone-58761.mp3',
-  //       loopAudio: true,
-  //       vibrate: true,
-  //       volumeMax: true,
-  //       fadeDuration: 3.0,
-  //       notificationTitle: 'This is the title',
-  //       notificationBody: 'This is the body',
-  //       enableNotificationOnKill: true,
-  //     );
-  //     return alarmSettings;
-  //   }
-  //   return null;
-  // }
+  /// Alarm Settings
+  AlarmSettings buildAlarmSettings() {
+    final id = creating
+        ? DateTime.now().millisecondsSinceEpoch % 100000
+        : widget.todoModel?.alarmSettings!.id;
+
+    DateTime dateTime = DateTime(
+      ref.watch(selectedDateProvider)!.year,
+      ref.watch(selectedDateProvider)!.month,
+      ref.watch(selectedDateProvider)!.day,
+      ref.watch(selectedTimeProvider)!.hour,
+      ref.watch(selectedTimeProvider)!.minute,
+      0,
+      0,
+    );
+    if (dateTime.isBefore(DateTime.now())) {
+      dateTime = dateTime.add(const Duration(days: 1));
+    }
+
+    alarmSettings = AlarmSettings(
+      id: id!,
+      dateTime: dateTime,
+      loopAudio: true,
+      vibrate: true,
+      volumeMax: true,
+      notificationTitle: !creating ? widget.todoModel!.title : title,
+      notificationBody: !creating ? widget.todoModel!.description : description,
+      assetAudioPath: 'assets/alarms/marimba.mp3',
+      stopOnNotificationOpen: true,
+      enableNotificationOnKill: true,
+    );
+    return alarmSettings!;
+  }
+
+  void setAlarm() {
+    if (ref.watch(selectedDateProvider) != null &&
+        ref.watch(selectedTimeProvider) != null) {
+      buildAlarmSettings();
+      if (alarmSettings != null) {
+        Alarm.set(alarmSettings: alarmSettings!);
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    creating = widget.todoModel == null;
+  }
 
   @override
   Widget build(BuildContext context) {
     var selectedDate = ref.watch(selectedDateProvider);
     var selectedTime = ref.watch(selectedTimeProvider);
-    var todoList = ref.watch(todoListProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBarNewTodo(context, ref, widget.title),
@@ -116,83 +156,8 @@ class _NewTodoState extends ConsumerState<NewTodo> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      validator: (value) {
-                        if (value == null ||
-                            value.isEmpty ||
-                            value.trim().length <= 1 ||
-                            value.length > 50) {
-                          return 'Must be between 2 and 50 characters.';
-                        }
-                        return null;
-                      },
-                      onSaved: (newValue) {
-                        title = newValue!;
-                      },
-                      maxLines: null,
-                      maxLength: 50,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.black,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.red,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.black,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        label: const Text('Title*'),
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        hintText: 'Enter your title',
-                      ),
-                    ),
-                    kSizedBoxH20,
-                    TextFormField(
-                      onSaved: (newValue) {
-                        description = newValue;
-                      },
-                      maxLines: null,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.black,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(
-                            color: Colors.black,
-                          ),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        label: const Text('Description'),
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                        ),
-                        hintText: 'Enter your description',
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            ToDoForm(
+              formKey: _formKey,
             ),
             kSizedBoxH20,
             Card(
@@ -274,15 +239,15 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                             .read(selectedDateProvider.notifier)
                             .update((state) => state = DateTime.now());
                       }
-                      return ref.read(selectedTimeProvider.notifier).state =
-                          value;
+                      ref.read(selectedTimeProvider.notifier).state = value;
+                      alarm = value;
                     },
                   );
                 },
               ),
             ),
             kSizedBoxH20,
-            TagsWidget(),
+            const TagsWidget(),
             kSizedBoxH20,
             buildColor(ref, color),
             kSizedBoxH20,

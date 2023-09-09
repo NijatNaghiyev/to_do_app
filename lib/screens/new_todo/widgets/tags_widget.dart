@@ -1,5 +1,7 @@
+import 'package:animations/animations.dart';
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
+import 'package:codelandia_to_do_riverpod/screens/tags_adding_screen/tags_adding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -54,12 +56,19 @@ class _TagsWidgetState extends ConsumerState<TagsWidget> {
                   },
                 ),
               kSizedBoxW10,
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.add,
-                  size: 30,
+              OpenContainer(
+                closedElevation: 0,
+                closedColor: Colors.white,
+                closedShape: const CircleBorder(),
+                transitionDuration: const Duration(milliseconds: 500),
+                closedBuilder: (context, action) => Container(
+                  padding: const EdgeInsets.all(8),
+                  child: const Icon(
+                    Icons.add,
+                    size: 30,
+                  ),
                 ),
+                openBuilder: (context, action) => const TagsAddingScreen(),
               ),
             ],
           ),

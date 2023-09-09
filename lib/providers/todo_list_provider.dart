@@ -12,7 +12,7 @@ class TodoList extends StateNotifier<List<TodoModel>> {
             title: 'Test dwadad dawdad dataTest dwadad dawdad datadddd',
             description: 'This is a description',
             tags: [
-              TagModel(tagName: 'Work'),
+              TagModel(tagName: '#Work'),
             ],
             color: kColorList[1],
             deadline: DateTime.now(),
@@ -20,7 +20,7 @@ class TodoList extends StateNotifier<List<TodoModel>> {
           TodoModel(
             title: 'Test dwadad dawdad data',
             tags: [
-              TagModel(tagName: 'Home'),
+              TagModel(tagName: '#Home'),
             ],
             color: kColorList[3],
             deadline: DateTime.now(),
@@ -31,13 +31,17 @@ class TodoList extends StateNotifier<List<TodoModel>> {
               description: 'This is a description',
               color: kColorList[6],
               tags: [
-                TagModel(tagName: 'Home'),
-                TagModel(tagName: 'Work'),
+                TagModel(tagName: '#Home'),
+                TagModel(tagName: '#Work'),
               ]),
         ]);
 
   void add(TodoModel todoModel) {
-    state = [...state, todoModel];
+    state = [todoModel, ...state];
+  }
+
+  void remove(TodoModel todoModel) {
+    state = state.where((element) => element != todoModel).toList();
   }
 }
 
