@@ -10,4 +10,5 @@ class Assets {
       'assets/alarms/funny-alarm-48749.mp3';
   static const String alarmsMarimba = 'assets/alarms/marimba.mp3';
   static const String alarmsRingtone58761 = 'assets/alarms/ringtone-58761.mp3';
+  static const String imagesUndrawNoDataReKwbl = 'assets/images/empty_list.svg';
 }

@@ -1,11 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:developer';
+
 import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/tags_on_card.dart';
+import 'package:codelandia_to_do_riverpod/screens/new_todo/new_todo_sceen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../constant/colors.dart';
 import '../../../constant/sized_box.dart';
 
 class ToDoCardWidget extends StatelessWidget {
@@ -45,7 +47,20 @@ class ToDoCardWidget extends StatelessWidget {
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         iconSize: 34,
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) {
+                                return NewTodo(
+                                  title: 'Edit To Do',
+                                  todoModel: todoModel,
+                                  index: indexCard,
+                                );
+                              },
+                            ),
+                          );
+                        },
                         icon: const Icon(
                           Icons.edit_note,
                           color: Colors.black,

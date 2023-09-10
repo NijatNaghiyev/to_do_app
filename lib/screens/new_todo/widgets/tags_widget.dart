@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:animations/animations.dart';
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
+import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
 import 'package:codelandia_to_do_riverpod/screens/tags_adding_screen/tags_adding_screen.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +11,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constant/colors.dart';
 
 class TagsWidget extends ConsumerStatefulWidget {
+  final TodoModel? todoModel;
   const TagsWidget({
     super.key,
+    required this.todoModel,
   });
 
   @override
@@ -17,6 +22,31 @@ class TagsWidget extends ConsumerStatefulWidget {
 }
 
 class _TagsWidgetState extends ConsumerState<TagsWidget> {
+  @override
+  void initState() {
+    super.initState();
+    editTime();
+  }
+
+  Timer editTime() {
+    return Timer(
+      Duration.zero,
+      () {
+        if (widget.todoModel != null) {
+          for (var element in widget.todoModel!.tags) {
+            ref.watch(tagsListProvider).forEach(
+              (e) {
+                if (e.tagName == element.tagName) {
+                  e.isAdded = true;
+                }
+              },
+            );
+          }
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var tagListProvider = ref.watch(tagsListProvider);
@@ -46,13 +76,17 @@ class _TagsWidgetState extends ConsumerState<TagsWidget> {
                   selectedColor:
                       kColorList[tagListProvider.indexOf(element) % 12],
                   onSelected: (value) {
-                    setState(() {
-                      ref.watch(tagsListProvider).forEach((e) {
-                        if (e == element) {
-                          e.isAdded = value;
-                        }
-                      });
-                    });
+                    setState(
+                      () {
+                        ref.watch(tagsListProvider).forEach(
+                          (e) {
+                            if (e.tagName == element.tagName) {
+                              e.isAdded = value;
+                            }
+                          },
+                        );
+                      },
+                    );
                   },
                 ),
               kSizedBoxW10,

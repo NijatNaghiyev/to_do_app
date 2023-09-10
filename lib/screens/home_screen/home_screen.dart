@@ -4,12 +4,14 @@ import 'package:alarm/alarm.dart';
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/methods/alarm_methods.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/custom_app_bar.dart';
+import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/empty_list_image.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/filter_buttons.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/float_action_button.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/to_do_card_widget.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/welcome_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import '../../providers/todo_list_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -57,17 +59,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 kSizedBoxH10,
                 const WelcomeBarWidget(),
                 const FilterButtons(),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  controller: _scrollController,
-                  itemCount: todoList.length,
-                  itemBuilder: (context, index) => ToDoCardWidget(
-                    indexCard: index,
-                    key: ValueKey(todoList[index].id),
-                    todoModel: todoList[index],
-                  ),
-                ),
+                todoList.isEmpty
+                    ? const EmptyListImage()
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        controller: _scrollController,
+                        itemCount: todoList.length,
+                        itemBuilder: (context, index) => ToDoCardWidget(
+                          indexCard: index,
+                          key: ValueKey(todoList[index].id),
+                          todoModel: todoList[index],
+                        ),
+                      ),
               ],
             ),
           ),

@@ -1,18 +1,50 @@
+import 'dart:async';
+
+import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
 import 'package:codelandia_to_do_riverpod/providers/form_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constant/sized_box.dart';
+import '../../../providers/isCreating_provider.dart';
 
-class ToDoForm extends ConsumerWidget {
-  final GlobalKey<FormState> formKey;
+final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+class ToDoForm extends ConsumerStatefulWidget {
+  final TodoModel? todoModel;
   const ToDoForm({
+    required this.todoModel,
     super.key,
-    required this.formKey,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ToDoForm> createState() => _ToDoFormState();
+}
+
+class _ToDoFormState extends ConsumerState<ToDoForm> {
+  TextEditingController titleTextController = TextEditingController();
+  TextEditingController? descTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    Timer(Duration.zero, () {
+      if (!ref.watch(isCreatingProvider)) {
+        titleTextController.text = widget.todoModel!.title;
+        descTextController?.text = widget.todoModel!.description!;
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    titleTextController.dispose();
+    descTextController?.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Form(
       key: formKey,
       child: Padding(
@@ -21,6 +53,7 @@ class ToDoForm extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              controller: titleTextController,
               validator: (value) {
                 if (value == null ||
                     value.isEmpty ||
@@ -34,6 +67,7 @@ class ToDoForm extends ConsumerWidget {
                 ref
                     .watch(titleProvider.notifier)
                     .update((state) => state = newValue!);
+                titleTextController.text = newValue!;
               },
               onChanged: (value) {
                 ref
@@ -76,10 +110,12 @@ class ToDoForm extends ConsumerWidget {
             ),
             kSizedBoxH20,
             TextFormField(
+              controller: descTextController,
               onSaved: (newValue) {
                 ref
                     .watch(descriptionProvider.notifier)
                     .update((state) => state = newValue);
+                descTextController?.text = newValue!;
               },
               onChanged: (value) {
                 ref

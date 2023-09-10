@@ -11,7 +11,7 @@ class TodoModel {
   final String title;
   final String? description;
   final Color color;
-  final List<TagModel?> tags;
+  final List<TagModel> tags;
   final DateTime? deadline;
   final TimeOfDay? alarm;
   final AlarmSettings? alarmSettings;

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../home_screen/home_screen.dart';
 import 'build_reset_save_data.dart';
 
 Future<void> buildShowDialogNewTodo(BuildContext context, WidgetRef ref) {
@@ -24,12 +23,6 @@ Future<void> buildShowDialogNewTodo(BuildContext context, WidgetRef ref) {
               buildResetSaveData(ref);
               Navigator.pop(context);
               Navigator.pop(context);
-              // Navigator.pushReplacement(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => const HomeScreen(),
-              //   ),
-              // );
             },
           ),
           ElevatedButton(

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:core';
 
 import 'package:alarm/alarm.dart';
 import 'package:codelandia_to_do_riverpod/constant/colors.dart';
@@ -8,26 +9,30 @@ import 'package:codelandia_to_do_riverpod/providers/selected_color.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/home_screen.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/ToDoForm.dart';
+import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/color_widget.dart';
+import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/save_button.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/tags_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 import '../../data/model/tag_model.dart';
 import '../../providers/form_providers.dart';
+import '../../providers/isCreating_provider.dart';
 import '../../providers/selected_date.dart';
 import '../../providers/selected_time.dart';
 import '../../providers/todo_list_provider.dart';
 import 'methods/app_bar_new_todo.dart';
-import 'methods/build_color.dart';
 import 'methods/build_reset_save_data.dart';
-import 'methods/save_button.dart';
 
 class NewTodo extends ConsumerStatefulWidget {
+  final int? index;
   final TodoModel? todoModel;
   final String title;
 
   const NewTodo({
     super.key,
+    this.index,
     this.todoModel,
     required this.title,
   });
@@ -37,7 +42,8 @@ class NewTodo extends ConsumerStatefulWidget {
 }
 
 class _NewTodoState extends ConsumerState<NewTodo> {
-  final _formKey = GlobalKey<FormState>();
+  DateFormat dateFormat = DateFormat('dd MMMM yyyy');
+  var timeFormat = DateFormat.Hm();
 
   bool loading = false;
 
@@ -46,7 +52,7 @@ class _NewTodoState extends ConsumerState<NewTodo> {
   String title = '';
   String? description;
   Color color = kColorList[0];
-  List<TagModel?> tags = [];
+  List<TagModel> tags = [];
   DateTime? deadline;
   TimeOfDay? alarm;
   AlarmSettings? alarmSettings;
@@ -54,34 +60,50 @@ class _NewTodoState extends ConsumerState<NewTodo> {
   /// Save To Do
   Future<void> saveToDo() async {
     final todoList = ref.watch(todoListProvider.notifier);
-    title = ref.watch(titleProvider.notifier).state;
-    description = ref.watch(descriptionProvider);
 
     /// Validate form
-    if (_formKey.currentState!.validate()) {
-      _formKey.currentState!.save();
+    if (formKey.currentState!.validate()) {
+      formKey.currentState!.save();
+      title = ref.watch(titleProvider);
+      description = ref.watch(descriptionProvider);
       color = ref.watch(selectedColor.notifier).state;
       tags = ref
-          .watch(tagsListProvider)
+          .read(tagsListProvider)
           .where((element) => element.isAdded == true)
           .toList();
 
+      /// Set Alarm
       setAlarm();
 
       /// Add new To Do
-      todoList.add(
-        TodoModel(
-          title: title,
-          description: description,
-          color: color,
-          tags: tags,
-          deadline: ref.watch(selectedDateProvider.notifier).state,
-          alarm: ref.watch(selectedTimeProvider.notifier).state,
-          alarmSettings: alarmSettings,
-        ),
-      );
+      if (creating) {
+        todoList.add(
+          TodoModel(
+            title: title,
+            description: description,
+            color: color,
+            tags: tags,
+            deadline: ref.watch(selectedDateProvider.notifier).state,
+            alarm: ref.watch(selectedTimeProvider.notifier).state,
+            alarmSettings: alarmSettings,
+          ),
+        );
+      } else {
+        todoList.edit(
+          TodoModel(
+            title: title,
+            description: description,
+            color: color,
+            tags: tags,
+            deadline: ref.watch(selectedDateProvider.notifier).state,
+            alarm: ref.watch(selectedTimeProvider.notifier).state,
+            alarmSettings: alarmSettings,
+          ),
+          widget.index,
+        );
+      }
 
-      _formKey.currentState!.reset();
+      formKey.currentState!.reset();
 
       buildResetSaveData(ref);
       Navigator.pushReplacement(
@@ -140,7 +162,25 @@ class _NewTodoState extends ConsumerState<NewTodo> {
   @override
   void initState() {
     super.initState();
+
+    /// Check if creating or editing
     creating = widget.todoModel == null;
+    Timer(Duration.zero, () {
+      ref.watch(isCreatingProvider.notifier).update((state) => creating);
+      if (!creating) {
+        ref
+            .watch(selectedColor.notifier)
+            .update((state) => widget.todoModel!.color);
+
+        ref.watch(selectedDateProvider.notifier).update(
+              (state) => widget.todoModel!.deadline,
+            );
+
+        ref.watch(selectedTimeProvider.notifier).update(
+              (state) => widget.todoModel!.alarm,
+            );
+      }
+    });
   }
 
   @override
@@ -157,7 +197,7 @@ class _NewTodoState extends ConsumerState<NewTodo> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ToDoForm(
-              formKey: _formKey,
+              todoModel: widget.todoModel,
             ),
             kSizedBoxH20,
             Card(
@@ -170,6 +210,8 @@ class _NewTodoState extends ConsumerState<NewTodo> {
               ),
               elevation: 0,
               child: SwitchListTile.adaptive(
+                activeTrackColor: Colors.black,
+                activeColor: ref.watch(selectedColor),
                 secondary: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -180,7 +222,8 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                 subtitle: selectedDate == null
                     ? const Text('No date selected')
                     : Text(
-                        '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}'),
+                        dateFormat.format(selectedDate),
+                      ),
                 value: selectedDate != null,
                 onChanged: (value) {
                   showDatePicker(
@@ -193,7 +236,7 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                     ),
                     lastDate: DateTime.now().add(
                       const Duration(
-                        days: 365,
+                        days: 365 * 3,
                       ),
                     ),
                   ).then(
@@ -215,6 +258,8 @@ class _NewTodoState extends ConsumerState<NewTodo> {
               ),
               elevation: 0,
               child: SwitchListTile.adaptive(
+                activeTrackColor: Colors.black,
+                activeColor: ref.watch(selectedColor),
                 secondary: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -225,11 +270,27 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                 subtitle: selectedTime == null
                     ? const Text('No time selected')
                     : Text(
-                        '${selectedTime.hour}:${selectedTime.minute}',
+                        timeFormat.format(
+                          DateTime(
+                            0,
+                            0,
+                            0,
+                            selectedTime.hour,
+                            selectedTime.minute,
+                          ),
+                        ),
                       ),
                 value: selectedTime != null,
                 onChanged: (value) async {
                   showTimePicker(
+                    initialEntryMode: TimePickerEntryMode.input,
+                    builder: (context, Widget? child) {
+                      return MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(alwaysUse24HourFormat: true),
+                        child: child!,
+                      );
+                    },
                     context: context,
                     initialTime: TimeOfDay.now(),
                   ).then(
@@ -247,11 +308,15 @@ class _NewTodoState extends ConsumerState<NewTodo> {
               ),
             ),
             kSizedBoxH20,
-            const TagsWidget(),
+            TagsWidget(
+              todoModel: widget.todoModel,
+            ),
             kSizedBoxH20,
-            buildColor(ref, color),
+            const ColorWidget(),
             kSizedBoxH20,
-            buildSaveButton(saveToDo),
+            SaveButton(
+              saveToDo: saveToDo,
+            ),
           ],
         ),
       ),

@@ -1,12 +1,14 @@
+import 'package:codelandia_to_do_riverpod/providers/todo_list_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends ConsumerWidget {
   const CustomAppBar({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ListTile(
       leading: IconButton(
         iconSize: 36,
@@ -32,7 +34,13 @@ class CustomAppBar extends StatelessWidget {
         children: [
           IconButton(
             iconSize: 26,
-            onPressed: () {},
+            onPressed: () {
+              ref.watch(todoListProvider).forEach((element) {
+                element.tags.forEach((element) {
+                  print(element.isAdded);
+                });
+              });
+            },
             icon: const Icon(
               Icons.notifications_none,
               color: Colors.black,

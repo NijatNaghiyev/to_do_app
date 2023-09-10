@@ -1,8 +1,10 @@
-import 'package:codelandia_to_do_riverpod/constant/colors.dart';
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'methods/tag_app_bar.dart';
+import 'methods/to_add_tag.dart';
 
 class TagsAddingScreen extends ConsumerWidget {
   const TagsAddingScreen({super.key});
@@ -10,30 +12,10 @@ class TagsAddingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ScrollController scrollController = ScrollController();
-    TextEditingController textEditingController = TextEditingController();
     var tagsList = ref.watch(tagsListProvider);
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          'Your Tags',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-            color: Colors.black,
-          ),
-        ),
-      ),
+      appBar: buildTagAddingScreenAppBar(context),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -72,29 +54,21 @@ class TagsAddingScreen extends ConsumerWidget {
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        label: const Text('Tag name'),
+                        label: const Text('Tag Name'),
                         labelStyle: const TextStyle(
                           color: Colors.black,
                         ),
-                        hintText: 'Enter your tag',
+                        hintText: 'Enter Your Tag...',
                       ),
                       onSubmitted: (value) {
-                        if (textEditingController.text.isNotEmpty) {
-                          ref.read(tagsListProvider.notifier).addTag(
-                                textEditingController.text.trim(),
-                              );
-                        }
+                        toAddTag(ref);
                       },
                     ),
                   ),
                   const Spacer(),
                   IconButton(
                     onPressed: () {
-                      if (textEditingController.text.isNotEmpty) {
-                        ref.read(tagsListProvider.notifier).addTag(
-                              textEditingController.text.trim(),
-                            );
-                      }
+                      toAddTag(ref);
                     },
                     icon: const Icon(
                       Icons.add,
@@ -122,9 +96,9 @@ class TagsAddingScreen extends ConsumerWidget {
                 return ListTile(
                   title: Text(
                     tagsList[index].tagName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: kColorList[index % 12],
+                      color: Colors.black,
                     ),
                   ),
                   trailing: IconButton(
