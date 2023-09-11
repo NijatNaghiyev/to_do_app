@@ -1,24 +1,27 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/adapters.dart';
 
 import '../data/model/tag_model.dart';
 
 class TagNotifier extends StateNotifier<List<TagModel>> {
   TagNotifier()
-      : super(<TagModel>[
-          TagModel(tagName: '#Home'),
-          TagModel(tagName: '#School'),
-          TagModel(tagName: '#Lifestyle'),
-          TagModel(tagName: '#Urgent'),
-          TagModel(tagName: '#Important'),
-          TagModel(tagName: '#Work'),
-        ]);
+      : super(
+          Hive.box('box').get(
+            'tags',
+            defaultValue: <TagModel>[],
+          ).cast<TagModel>(),
+        );
 
   void addTag(String tagName) {
     state = [...state, TagModel(tagName: '#$tagName')];
+
+    Hive.box('box').put('tags', state);
   }
 
   void removeTag(TagModel tagModel) {
     state = state.where((element) => element != tagModel).toList();
+
+    Hive.box('box').put('tags', state);
   }
 }
 

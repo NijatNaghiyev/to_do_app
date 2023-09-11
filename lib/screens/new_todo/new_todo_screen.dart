@@ -137,12 +137,13 @@ class _NewTodoState extends ConsumerState<NewTodo> {
     alarmSettings = AlarmSettings(
       id: id!,
       dateTime: dateTime,
+      assetAudioPath: 'assets/alarms/marimba.mp3',
       loopAudio: true,
       vibrate: true,
       volumeMax: true,
+      fadeDuration: 0.0,
       notificationTitle: !creating ? widget.todoModel!.title : title,
       notificationBody: !creating ? widget.todoModel!.description : description,
-      assetAudioPath: 'assets/alarms/marimba.mp3',
       stopOnNotificationOpen: true,
       enableNotificationOnKill: true,
     );

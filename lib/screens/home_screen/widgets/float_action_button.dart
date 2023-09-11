@@ -2,7 +2,7 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constant/sized_box.dart';
-import '../../new_todo/new_todo_sceen.dart';
+import '../../new_todo/new_todo_screen.dart';
 
 class FloatActionButton extends StatelessWidget {
   const FloatActionButton({

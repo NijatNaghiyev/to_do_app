@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:animations/animations.dart';
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
 import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
+import 'package:codelandia_to_do_riverpod/providers/isCreating_provider.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
 import 'package:codelandia_to_do_riverpod/screens/tags_adding_screen/tags_adding_screen.dart';
 import 'package:flutter/material.dart';
@@ -22,34 +23,33 @@ class TagsWidget extends ConsumerStatefulWidget {
 }
 
 class _TagsWidgetState extends ConsumerState<TagsWidget> {
+  void initActiveTags() {
+    if (widget.todoModel != null) {
+      for (var element in widget.todoModel!.tags) {
+        ref.watch(tagsListProvider).forEach(
+          (e) {
+            if (e.tagName == element.tagName) {
+              ref
+                  .watch(
+                      tagsListProvider)[ref.watch(tagsListProvider).indexOf(e)]
+                  .isAdded = true;
+            }
+          },
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-    editTime();
-  }
-
-  Timer editTime() {
-    return Timer(
-      Duration.zero,
-      () {
-        if (widget.todoModel != null) {
-          for (var element in widget.todoModel!.tags) {
-            ref.watch(tagsListProvider).forEach(
-              (e) {
-                if (e.tagName == element.tagName) {
-                  e.isAdded = true;
-                }
-              },
-            );
-          }
-        }
-      },
-    );
+    Timer(Duration.zero, () => initActiveTags());
   }
 
   @override
   Widget build(BuildContext context) {
     var tagListProvider = ref.watch(tagsListProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../constant/sized_box.dart';
+import '../../../generated/assets.dart';
 
 class EmptyListImage extends StatelessWidget {
   const EmptyListImage({
@@ -20,7 +21,7 @@ class EmptyListImage extends StatelessWidget {
             height: 200,
             child: Center(
               child: SvgPicture.asset(
-                'assets/images/empty_list.svg',
+                Assets.imagesUndrawNoDataReKwbl,
                 semanticsLabel: 'Empty List',
               ),
             ),

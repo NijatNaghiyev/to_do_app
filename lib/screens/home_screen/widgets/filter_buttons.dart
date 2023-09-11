@@ -38,7 +38,7 @@ class FilterButtons extends StatelessWidget {
             ),
             onPressed: () {},
             child: const Text(
-              'Upcoming',
+              'Ongoing',
               style: TextStyle(
                 color: Colors.black,
               ),
