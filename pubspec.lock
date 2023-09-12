@@ -65,14 +65,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.1.16"
-  awesome_snackbar_content:
-    dependency: "direct main"
-    description:
-      name: awesome_snackbar_content
-      sha256: a94407ad596ac4b2f925b032c11f390cd3b3e640a9799f4983b86be0bc17f62b
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.3"
   boolean_selector:
     dependency: transitive
     description:
@@ -318,11 +310,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0+1"
-  flutter_localizations:
-    dependency: transitive
-    description: flutter
-    source: sdk
-    version: "0.0.0"
   flutter_riverpod:
     dependency: "direct main"
     description:
@@ -473,10 +460,10 @@ packages:
     dependency: transitive
     description:
       name: just_audio
-      sha256: "890cd0fc41a1a4530c171e375a2a3fb6a09d84e9d508c5195f40bcff54330327"
+      sha256: "5ed0cd723e17dfd8cd4b0253726221e67f6546841ea4553635cf895061fc335b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.9.34"
+    version: "0.9.35"
   just_audio_platform_interface:
     dependency: transitive
     description:

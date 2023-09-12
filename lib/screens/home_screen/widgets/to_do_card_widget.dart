@@ -1,5 +1,4 @@
 import 'package:alarm/alarm.dart';
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
 import 'package:codelandia_to_do_riverpod/providers/todo_list_provider.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/tags_on_card.dart';
@@ -29,6 +28,7 @@ class ToDoCardWidget extends ConsumerWidget {
     }
 
     DateFormat dateFormat = DateFormat('dd MMMM yyyy');
+    DateFormat timeFormat = DateFormat.Hm();
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 700),
@@ -175,7 +175,15 @@ class ToDoCardWidget extends ConsumerWidget {
                                     ),
                                     kSizedBoxW10,
                                     Text(
-                                      '${todoModel.alarm!.hour}:${todoModel.alarm!.minute}',
+                                      timeFormat.format(
+                                        DateTime(
+                                          0,
+                                          0,
+                                          0,
+                                          todoModel.alarm!.hour,
+                                          todoModel.alarm!.minute,
+                                        ),
+                                      ),
                                       style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,
@@ -204,7 +212,7 @@ class ToDoCardWidget extends ConsumerWidget {
                           },
                           icon: Icon(
                             todoModel.isDone
-                                ? Icons.check_circle_outline
+                                ? Icons.check_circle
                                 : Icons.circle_outlined,
                             color: Colors.black,
                           ),

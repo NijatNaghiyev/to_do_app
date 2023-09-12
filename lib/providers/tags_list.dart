@@ -6,7 +6,7 @@ import '../data/model/tag_model.dart';
 class TagNotifier extends StateNotifier<List<TagModel>> {
   TagNotifier()
       : super(
-          Hive.box('box').get(
+          Hive.box('todoBox').get(
             'tags',
             defaultValue: <TagModel>[],
           ).cast<TagModel>(),
@@ -15,13 +15,13 @@ class TagNotifier extends StateNotifier<List<TagModel>> {
   void addTag(String tagName) {
     state = [...state, TagModel(tagName: '#$tagName')];
 
-    Hive.box('box').put('tags', state);
+    Hive.box('todoBox').put('tags', state);
   }
 
   void removeTag(TagModel tagModel) {
     state = state.where((element) => element != tagModel).toList();
 
-    Hive.box('box').put('tags', state);
+    Hive.box('todoBox').put('tags', state);
   }
 }
 

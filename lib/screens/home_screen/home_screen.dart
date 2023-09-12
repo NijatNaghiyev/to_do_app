@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:alarm/alarm.dart';
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
+import 'package:codelandia_to_do_riverpod/providers/filters_provider.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/methods/alarm_methods.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/custom_app_bar.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/empty_list_image.dart';
@@ -43,6 +44,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final todoList = ref.watch(todoListProvider);
+    var filtersList = ref.watch(filterListProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -61,15 +63,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 const FilterButtons(),
                 todoList.isEmpty
                     ? const EmptyListImage()
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: _scrollController,
-                        itemCount: todoList.length,
-                        itemBuilder: (context, index) => ToDoCardWidget(
-                          indexCard: index,
-                          key: ValueKey(todoList[index].id),
-                          todoModel: todoList[index],
+                    : AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 500),
+                        child: ListView.builder(
+                          key: UniqueKey(),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: _scrollController,
+                          itemCount: filtersList.length,
+                          itemBuilder: (context, index) => ToDoCardWidget(
+                            indexCard: todoList.indexOf(filtersList[index]),
+                            key: ValueKey(filtersList[index].id),
+                            todoModel: filtersList[index],
+                          ),
                         ),
                       ),
               ],

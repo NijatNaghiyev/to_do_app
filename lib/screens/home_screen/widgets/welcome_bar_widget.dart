@@ -1,3 +1,5 @@
+import 'package:animations/animations.dart';
+import 'package:codelandia_to_do_riverpod/screens/search_screen/search_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constant/sized_box.dart';
@@ -36,17 +38,19 @@ class WelcomeBarWidget extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          IconButton(
-            iconSize: 50,
-            onPressed: () {},
-            icon: const CircleAvatar(
-              radius: 30,
+          OpenContainer(
+            closedElevation: 0,
+            transitionDuration: const Duration(milliseconds: 500),
+            closedBuilder: (context, action) => const CircleAvatar(
+              radius: 26,
               backgroundColor: Colors.black,
               child: Icon(
                 Icons.search,
                 color: Colors.white,
+                size: 30,
               ),
             ),
+            openBuilder: (context, action) => const SearchScreen(),
           ),
         ],
       ),

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:alarm/alarm.dart';
 import 'package:codelandia_to_do_riverpod/providers/todo_list_provider.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +41,7 @@ class CustomAppBar extends ConsumerWidget {
               ref.watch(todoListProvider).forEach((element) {
                 print('${element.alarmSettings?.id}');
                 print(Alarm.getAlarms().length);
+                log('${element.id}');
               });
             },
             icon: const Icon(
