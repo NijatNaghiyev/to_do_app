@@ -1,14 +1,15 @@
-import 'package:alarm/alarm.dart';
 import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
-import 'package:codelandia_to_do_riverpod/providers/todo_list_provider.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/tags_on_card.dart';
+import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/todo_card_icon_button.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/new_todo_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constant/sized_box.dart';
+import '../../../providers/todo_list_provider.dart';
+import '../methods/todo_card_methods.dart';
 
 class ToDoCardWidget extends ConsumerWidget {
   const ToDoCardWidget({
@@ -20,16 +21,6 @@ class ToDoCardWidget extends ConsumerWidget {
   final TodoModel todoModel;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void deleteToDo() {
-      ref.watch(todoListProvider.notifier).remove(todoModel);
-      if (todoModel.alarmSettings != null) {
-        Alarm.stop(todoModel.alarmSettings!.id);
-      }
-    }
-
-    DateFormat dateFormat = DateFormat('dd MMMM yyyy');
-    DateFormat timeFormat = DateFormat.Hm();
-
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 700),
       child: Padding(
@@ -40,7 +31,7 @@ class ToDoCardWidget extends ConsumerWidget {
           endActionPane: ActionPane(
             dismissible: DismissiblePane(
               onDismissed: () {
-                deleteToDo();
+                deleteToDo(todoModel, ref);
               },
             ),
             motion: const ScrollMotion(),
@@ -51,7 +42,7 @@ class ToDoCardWidget extends ConsumerWidget {
                   bottomLeft: Radius.circular(16),
                 ),
                 onPressed: (context) {
-                  deleteToDo();
+                  deleteToDo(todoModel, ref);
                 },
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
@@ -60,169 +51,140 @@ class ToDoCardWidget extends ConsumerWidget {
               ),
             ],
           ),
-          child: Card(
-            margin: const EdgeInsets.symmetric(horizontal: 6),
-            key: ValueKey(todoModel.id),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            color: todoModel.isDone
-                ? todoModel.color.withOpacity(0.25)
-                : todoModel.color,
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: TagsOnCard(indexCard: indexCard),
-                          ),
-                          IconButton(
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            iconSize: 34,
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) {
-                                    return NewTodo(
-                                      title: 'Edit To Do',
-                                      todoModel: todoModel,
-                                      index: indexCard,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            icon: const Icon(
-                              Icons.edit_note,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Text(
-                      todoModel.title,
-                      style: const TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24,
-                      ),
-                    ),
-                  ),
-                  if (todoModel.description != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 8,
-                      ),
-                      child: Text(
-                        todoModel.description!,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Card(
+                margin: const EdgeInsets.symmetric(horizontal: 6),
+                key: ValueKey(todoModel.id),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                color: todoModel.isDone
+                    ? todoModel.color.withOpacity(0.1)
+                    : todoModel.color,
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        height: 50,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
                             children: [
-                              if (todoModel.deadline != null)
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.calendar_month,
-                                      color: Colors.black,
+                              Expanded(
+                                child: TagsOnCard(indexCard: indexCard),
+                              ),
+                              IconButton(
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                iconSize: 34,
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return NewTodo(
+                                          title: 'Edit To Do',
+                                          todoModel: todoModel,
+                                          index: indexCard,
+                                        );
+                                      },
                                     ),
-                                    kSizedBoxW10,
-                                    Text(
-                                      dateFormat.format(todoModel.deadline!),
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
+                                  );
+                                },
+                                icon: const Icon(
+                                  Icons.edit_note,
+                                  color: Colors.black,
                                 ),
-                              kSizedBoxH10,
-                              if (todoModel.alarm != null)
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.alarm,
-                                      color: Colors.black,
-                                    ),
-                                    kSizedBoxW10,
-                                    Text(
-                                      timeFormat.format(
-                                        DateTime(
-                                          0,
-                                          0,
-                                          0,
-                                          todoModel.alarm!.hour,
-                                          todoModel.alarm!.minute,
-                                        ),
-                                      ),
-                                      style: const TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                              ),
                             ],
                           ),
                         ),
-                        IconButton(
-                          splashColor: Colors.transparent,
-                          highlightColor: Colors.transparent,
-                          iconSize: 30,
-                          onPressed: () {
-                            ref
-                                .watch(todoListProvider.notifier)
-                                .isDone(todoModel, indexCard);
-
-                            if (todoModel.alarmSettings != null) {
-                              todoModel.isDone
-                                  ? Alarm.stop(todoModel.alarmSettings!.id)
-                                  : Alarm.set(
-                                      alarmSettings: todoModel.alarmSettings!);
-                            }
-                          },
-                          icon: Icon(
-                            todoModel.isDone
-                                ? Icons.check_circle
-                                : Icons.circle_outlined,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        child: Text(
+                          todoModel.title,
+                          style: const TextStyle(
                             color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
                           ),
-                        )
-                      ],
+                        ),
+                      ),
+                      if (todoModel.description != null)
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
+                          child: Text(
+                            todoModel.description!,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 8,
+                        ),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  if (todoModel.deadline != null)
+                                    isVisibleDate(
+                                      todoModel,
+                                    ),
+                                  kSizedBoxH10,
+                                  if (todoModel.alarm != null)
+                                    isVisibleTime(
+                                      todoModel,
+                                    ),
+                                ],
+                              ),
+                            ),
+                            TodoCardIconButton(
+                              todoModel: todoModel,
+                              indexCard: indexCard,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              if ((todoModel.deadline == null
+                      ? false
+                      : todoModel.deadline!.isBefore(
+                          DateTime.now().subtract(
+                            const Duration(days: 1),
+                          ),
+                        )) &&
+                  !todoModel.isDone)
+                const Positioned(
+                  top: -10,
+                  right: -5,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: FaIcon(
+                      FontAwesomeIcons.calendarXmark,
+                      color: Color(0xFFC9160C),
                     ),
                   ),
-                ],
-              ),
-            ),
+                )
+            ],
           ),
         ),
       ),

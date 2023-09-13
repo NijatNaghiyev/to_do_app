@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constant/sized_box.dart';
+import '../../../data/model/filter_button.dart';
 
 class FilterButtons extends ConsumerWidget {
   const FilterButtons({

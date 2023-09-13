@@ -15,7 +15,7 @@ import 'dart:ui';
 
 List<Color> kColorList = const [
   Color(0xFF2271B3),
-  Color(0xFFFF0000),
+  Color(0xFFC42828),
   Color(0xFF00FF00),
   Color(0xFFDA528B),
   Color(0xFFFFFF00),

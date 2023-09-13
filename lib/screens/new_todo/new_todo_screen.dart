@@ -287,8 +287,9 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                     initialEntryMode: TimePickerEntryMode.input,
                     builder: (context, Widget? child) {
                       return MediaQuery(
-                        data: MediaQuery.of(context)
-                            .copyWith(alwaysUse24HourFormat: true),
+                        data: MediaQuery.of(context).copyWith(
+                          alwaysUse24HourFormat: true,
+                        ),
                         child: child!,
                       );
                     },

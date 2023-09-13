@@ -17,6 +17,7 @@ dependencies:
 
   flutter_riverpod: ^2.4.0
   google_fonts: ^5.1.0
+  font_awesome_flutter: ^10.5.0
   uuid: ^3.0.7
   intl: ^0.18.1
   animations: ^2.0.8
@@ -46,5 +47,6 @@ flutter:
   assets:
     - assets/alarms/
     - assets/images/
+    - assets/images/search.svg
   #   - images/a_dot_ham.jpeg
 

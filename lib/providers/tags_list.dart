@@ -12,6 +12,12 @@ class TagNotifier extends StateNotifier<List<TagModel>> {
           ).cast<TagModel>(),
         );
 
+  void newToDo() {
+    for (var element in state) {
+      element.isAdded = false;
+    }
+  }
+
   void addTag(String tagName) {
     state = [...state, TagModel(tagName: '#$tagName')];
 

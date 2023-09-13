@@ -13,6 +13,7 @@ import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/welcome_ba
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../generated/assets.dart';
 import '../../providers/todo_list_provider.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -45,6 +46,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     final todoList = ref.watch(todoListProvider);
     var filtersList = ref.watch(filterListProvider);
+    var filterPro = ref.watch(filterProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -62,11 +64,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 const WelcomeBarWidget(),
                 const FilterButtons(),
                 todoList.isEmpty
-                    ? const EmptyListImage()
+                    ? const EmptyListImage(
+                        title: 'Your To Do List is Empty',
+                        image: Assets.imagesEmptyList,
+                      )
                     : AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 500),
+                        duration: const Duration(milliseconds: 600),
                         child: ListView.builder(
-                          key: UniqueKey(),
+                          key: ValueKey(filterPro),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           controller: _scrollController,

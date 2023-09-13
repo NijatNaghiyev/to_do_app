@@ -1,16 +1,19 @@
 import 'package:animations/animations.dart';
+import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constant/sized_box.dart';
 import '../../new_todo/new_todo_screen.dart';
 
-class FloatActionButton extends StatelessWidget {
+class FloatActionButton extends ConsumerWidget {
   const FloatActionButton({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(tagsListProvider.notifier).newToDo();
     return OpenContainer(
       transitionDuration: const Duration(milliseconds: 500),
       closedShape: const RoundedRectangleBorder(

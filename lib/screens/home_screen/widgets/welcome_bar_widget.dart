@@ -1,24 +1,56 @@
 import 'package:animations/animations.dart';
 import 'package:codelandia_to_do_riverpod/screens/search_screen/search_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../constant/sized_box.dart';
+import '../../../providers/todo_list_provider.dart';
 
-class WelcomeBarWidget extends StatelessWidget {
+class WelcomeBarWidget extends ConsumerWidget {
   const WelcomeBarWidget({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var todoList = ref.watch(todoListProvider);
+    int todayToDo = todoList
+        .where((element) {
+          return (element.deadline == null || element.isDone)
+              ? false
+              : (element.deadline!.isAfter(
+                    DateTime(
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                      23,
+                      59,
+                      59,
+                      999,
+                    ).subtract(const Duration(days: 1)),
+                  ) &&
+                  element.deadline!.isBefore(
+                    DateTime(
+                      DateTime.now().year,
+                      DateTime.now().month,
+                      DateTime.now().day,
+                      23,
+                      59,
+                      59,
+                      999,
+                    ),
+                  ));
+        })
+        .toList()
+        .length;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Welcome Back!',
                 style: TextStyle(
                   color: Colors.grey,
@@ -28,8 +60,8 @@ class WelcomeBarWidget extends StatelessWidget {
               ),
               kSizedBoxH10,
               Text(
-                'Here\'s Update Today.',
-                style: TextStyle(
+                'You\'ve $todayToDo To Do(s) Today.',
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                   fontSize: 24,

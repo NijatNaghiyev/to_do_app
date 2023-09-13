@@ -5,8 +5,13 @@ import '../../../constant/sized_box.dart';
 import '../../../generated/assets.dart';
 
 class EmptyListImage extends StatelessWidget {
+  final String title;
+  final String image;
+
   const EmptyListImage({
     super.key,
+    required this.title,
+    required this.image,
   });
 
   @override
@@ -21,15 +26,15 @@ class EmptyListImage extends StatelessWidget {
             height: 200,
             child: Center(
               child: SvgPicture.asset(
-                Assets.imagesUndrawNoDataReKwbl,
+                image,
                 semanticsLabel: 'Empty List',
               ),
             ),
           ),
           kSizedBoxH20,
-          const Text(
-            'Your To Do List is Empty',
-            style: TextStyle(
+          Text(
+            title,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
             ),

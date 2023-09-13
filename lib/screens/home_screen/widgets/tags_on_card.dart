@@ -18,7 +18,8 @@ class TagsOnCard extends ConsumerWidget {
             scrollDirection: Axis.horizontal,
             itemCount: todoList[indexCard].tags.length,
             itemBuilder: (context, index) => OutlinedButtonTagsCard(
-                tagName: todoList[indexCard].tags[index].tagName),
+              tagName: todoList[indexCard].tags[index].tagName,
+            ),
           )
         : const SizedBox();
   }
