@@ -8,7 +8,6 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../constant/sized_box.dart';
-import '../../../providers/todo_list_provider.dart';
 import '../methods/todo_card_methods.dart';
 
 class ToDoCardWidget extends ConsumerWidget {
@@ -77,27 +76,30 @@ class ToDoCardWidget extends ConsumerWidget {
                               Expanded(
                                 child: TagsOnCard(indexCard: indexCard),
                               ),
-                              IconButton(
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                iconSize: 34,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return NewTodo(
-                                          title: 'Edit To Do',
-                                          todoModel: todoModel,
-                                          index: indexCard,
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                                icon: const Icon(
-                                  Icons.edit_note,
-                                  color: Colors.black,
+                              Visibility(
+                                visible: todoModel.isDone ? false : true,
+                                child: IconButton(
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  iconSize: 34,
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return NewTodo(
+                                            title: 'Edit To Do',
+                                            todoModel: todoModel,
+                                            index: indexCard,
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit_note,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               ),
                             ],
@@ -145,6 +147,7 @@ class ToDoCardWidget extends ConsumerWidget {
                                   if (todoModel.deadline != null)
                                     isVisibleDate(
                                       todoModel,
+                                      ref,
                                     ),
                                   kSizedBoxH10,
                                   if (todoModel.alarm != null)
@@ -165,6 +168,8 @@ class ToDoCardWidget extends ConsumerWidget {
                   ),
                 ),
               ),
+
+              /// This is the code for the icon that appears when the deadline is passed
               if ((todoModel.deadline == null
                       ? false
                       : todoModel.deadline!.isBefore(
@@ -183,7 +188,46 @@ class ToDoCardWidget extends ConsumerWidget {
                       color: Color(0xFFC9160C),
                     ),
                   ),
-                )
+                ),
+
+              /// This is the code for the icon that appears when the deadline is today
+              if ((todoModel.deadline == null || todoModel.isDone)
+                  ? false
+                  : (todoModel.deadline!.isAfter(
+                        DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day,
+                          23,
+                          59,
+                          59,
+                          999,
+                        ).subtract(
+                          const Duration(days: 1),
+                        ),
+                      ) &&
+                      todoModel.deadline!.isBefore(
+                        DateTime(
+                          DateTime.now().year,
+                          DateTime.now().month,
+                          DateTime.now().day,
+                          23,
+                          59,
+                          59,
+                          999,
+                        ),
+                      )))
+                const Positioned(
+                  top: -10,
+                  right: -5,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: FaIcon(
+                      FontAwesomeIcons.calendar,
+                      color: Color(0xFF1A8509),
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

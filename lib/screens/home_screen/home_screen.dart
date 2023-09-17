@@ -10,11 +10,13 @@ import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/filter_but
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/float_action_button.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/to_do_card_widget.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/welcome_bar_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../generated/assets.dart';
 import '../../providers/todo_list_provider.dart';
+import 'drawer/drawer_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -49,6 +51,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     var filterPro = ref.watch(filterProvider);
 
     return Scaffold(
+      drawer: const DrawerScreen(),
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -64,8 +67,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 const WelcomeBarWidget(),
                 const FilterButtons(),
                 todoList.isEmpty
-                    ? const EmptyListImage(
-                        title: 'Your To Do List is Empty',
+                    ? EmptyListImage(
+                        title: 'Your To Do List is Empty'.tr(context: context),
                         image: Assets.imagesEmptyList,
                       )
                     : AnimatedSwitcher(

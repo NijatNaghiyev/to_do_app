@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 AppBar buildTagAddingScreenAppBar(BuildContext context) {
@@ -5,8 +6,8 @@ AppBar buildTagAddingScreenAppBar(BuildContext context) {
     backgroundColor: Colors.white,
     elevation: 0,
     centerTitle: true,
-    title: const Text(
-      'Your Tags',
+    title: Text(
+      'Your Tags'.tr(context: context),
       style: TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.bold,

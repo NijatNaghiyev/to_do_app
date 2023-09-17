@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -25,11 +26,11 @@ class _ColorWidgetState extends ConsumerState<ColorWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(12.0),
+        Padding(
+          padding: const EdgeInsets.all(12.0),
           child: Text(
-            'Color',
-            style: TextStyle(
+            'Color'.tr(),
+            style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 24,

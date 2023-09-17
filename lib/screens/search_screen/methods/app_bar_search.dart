@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -43,28 +44,28 @@ AppBar buildAppBarSearch(
           width: MediaQuery.sizeOf(context).width * 0.45,
           child: TextField(
             controller: searchController,
-            decoration: const InputDecoration(
-              hintText: 'Search To Do',
-              hintStyle: TextStyle(
+            decoration: InputDecoration(
+              hintText: 'Search To Do'.tr(context: context),
+              hintStyle: const TextStyle(
                 color: Colors.grey,
                 fontWeight: FontWeight.w500,
               ),
-              focusedBorder: UnderlineInputBorder(
+              focusedBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.black,
                 ),
               ),
-              border: UnderlineInputBorder(
+              border: const UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.black,
                 ),
               ),
-              enabledBorder: UnderlineInputBorder(
+              enabledBorder: const UnderlineInputBorder(
                 borderSide: BorderSide(
                   color: Colors.black,
                 ),
               ),
-              suffixIcon: Icon(
+              suffixIcon: const Icon(
                 Icons.search,
                 color: Colors.black,
               ),
@@ -92,7 +93,7 @@ AppBar buildAppBarSearch(
               return DropdownMenuItem(
                 value: e,
                 child: Text(
-                  e.name,
+                  e.name.tr(context: context),
                   style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w500,

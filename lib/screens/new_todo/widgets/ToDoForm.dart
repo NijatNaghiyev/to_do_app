@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
 import 'package:codelandia_to_do_riverpod/providers/form_providers.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -59,7 +60,8 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
                     value.isEmpty ||
                     value.trim().length <= 1 ||
                     value.length > 50) {
-                  return 'Must be between 2 and 50 characters.';
+                  return 'Must be between 2 and 50 characters.'
+                      .tr(context: context);
                 }
                 return null;
               },
@@ -101,11 +103,11 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                label: const Text('Title*'),
+                label: Text('Title*'.tr(context: context)),
                 labelStyle: const TextStyle(
                   color: Colors.black,
                 ),
-                hintText: 'Enter your title',
+                hintText: 'Enter your title'.tr(context: context),
               ),
             ),
             kSizedBoxH20,
@@ -136,11 +138,11 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                label: const Text('Description'),
+                label: Text('Description'.tr(context: context)),
                 labelStyle: const TextStyle(
                   color: Colors.black,
                 ),
-                hintText: 'Enter your description',
+                hintText: 'Enter your description'.tr(context: context),
               ),
             ),
           ],

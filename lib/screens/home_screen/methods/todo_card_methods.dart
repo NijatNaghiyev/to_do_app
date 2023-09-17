@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import '../../../constant/sized_box.dart';
 import '../../../data/model/todo_model.dart';
+import '../../../providers/selected_languages_provider.dart';
 import '../../../providers/todo_list_provider.dart';
 
 void deleteToDo(TodoModel todoModel, WidgetRef ref) {
@@ -15,17 +16,30 @@ void deleteToDo(TodoModel todoModel, WidgetRef ref) {
 }
 
 void isDoneToDo(TodoModel todoModel, int indexCard, WidgetRef ref) {
+  void isBeforeNow() {
+    if (DateTime(
+      todoModel.deadline!.year,
+      todoModel.deadline!.month,
+      todoModel.deadline!.day,
+      todoModel.alarm!.hour,
+      todoModel.alarm!.minute,
+      0,
+      0,
+    ).isAfter(DateTime.now())) {
+      Alarm.set(alarmSettings: todoModel.alarmSettings!);
+    }
+  }
+
   ref.watch(todoListProvider.notifier).isDone(todoModel, indexCard);
 
   if (todoModel.alarmSettings != null) {
-    todoModel.isDone
-        ? Alarm.stop(todoModel.alarmSettings!.id)
-        : Alarm.set(alarmSettings: todoModel.alarmSettings!);
+    todoModel.isDone ? Alarm.stop(todoModel.alarmSettings!.id) : isBeforeNow();
   }
 }
 
-Row isVisibleDate(TodoModel todoModel) {
-  DateFormat dateFormat = DateFormat('dd MMMM yyyy');
+Row isVisibleDate(TodoModel todoModel, WidgetRef ref) {
+  var selectedLanguage = ref.watch(selectedLanguageProvider);
+  DateFormat dateFormat = DateFormat('dd MMMM yyyy', selectedLanguage);
 
   return Row(
     children: [

@@ -1,4 +1,5 @@
 import 'package:codelandia_to_do_riverpod/providers/filters_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,18 +18,18 @@ class FilterButtons extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          buildFilledButtonFilter(ref, Filter.all, 'All'),
+          buildFilledButtonFilter(context, ref, Filter.all, 'All'),
           kSizedBoxW20,
-          buildFilledButtonFilter(ref, Filter.ongoing, 'Ongoing'),
+          buildFilledButtonFilter(context, ref, Filter.ongoing, 'Ongoing'),
           kSizedBoxW20,
-          buildFilledButtonFilter(ref, Filter.done, 'Done'),
+          buildFilledButtonFilter(context, ref, Filter.done, 'Done'),
         ],
       ),
     );
   }
 
   FilledButton buildFilledButtonFilter(
-      WidgetRef ref, Filter filter, String title) {
+      BuildContext context, WidgetRef ref, Filter filter, String title) {
     return FilledButton(
       style: ButtonStyle(
         side: MaterialStateProperty.all(
@@ -44,7 +45,7 @@ class FilterButtons extends ConsumerWidget {
         ref.watch(filterProvider.notifier).update((state) => filter);
       },
       child: Text(
-        title,
+        title.tr(context: context),
         style: TextStyle(
           color:
               ref.watch(filterProvider) == filter ? Colors.white : Colors.black,

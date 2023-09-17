@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -21,31 +22,31 @@ class FloatActionButton extends ConsumerWidget {
           Radius.circular(20),
         ),
       ),
-      openBuilder: (context, action) => const NewTodo(
+      openBuilder: (context, action) => NewTodo(
         todoModel: null,
-        title: 'New To Do',
+        title: 'New To Do'.tr(context: context),
       ),
       closedBuilder: (context, action) {
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
           height: 50,
-          width: 130,
+          width: 150,
           decoration: BoxDecoration(
             color: Colors.black,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.add_box,
                 color: Colors.white,
               ),
               kSizedBoxW10,
               Text(
-                'Add To Do',
+                'Add To Do'.tr(context: context),
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),

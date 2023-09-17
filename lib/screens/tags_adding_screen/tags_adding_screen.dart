@@ -1,5 +1,6 @@
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -54,11 +55,11 @@ class TagsAddingScreen extends ConsumerWidget {
                           ),
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        label: const Text('Tag Name'),
+                        label: Text('Tag Name'.tr(context: context)),
                         labelStyle: const TextStyle(
                           color: Colors.black,
                         ),
-                        hintText: 'Enter Your Tag...',
+                        hintText: 'Enter Your Tag...'.tr(context: context),
                       ),
                       onSubmitted: (value) {
                         toAddTag(ref);

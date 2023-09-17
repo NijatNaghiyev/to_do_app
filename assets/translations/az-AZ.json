@@ -1,0 +1,48 @@
+{
+  "All": "Hamısı",
+  "Ongoing": "Davam edən",
+  "Done": "Bitmiş",
+  "Chart": "Qrafik",
+  "Language": "Dil",
+  "About": "Haqqında",
+  "Version 1.0.0": "Versiya 1.0.0",
+  "Color": "Rəng",
+  "Welcome Back!": "Xoş gəldiniz!",
+  "You've {} To Do(s) Today.": "Sizin bu gün {} To Do varınızdır.",
+  "Add To Do": "To Do əlavə et",
+  "New To Do": "Yeni To Do",
+  "Must be between 2 and 50 characters.": "2 və 50 arasında olmalıdır.",
+  "Title*": "Başlıq*",
+  "Enter your title": "Başlığınızı daxil edin",
+  "Description": "İzahat",
+  "Enter your description" : "İzahatınızı daxil edin",
+  "You alarm ({}) is ringing...": "Zəng ({}) çalır...",
+  "Snooze": "Mürgüləmə",
+  "Stop": "Dayandır",
+  "Date": "Tarix",
+  "No date selected": "Tarix seçilməyib",
+  "Alarm": "Zəng",
+  "No time selected": "Zəng seçilməyib",
+  "Tags": "Etiketlər",
+  "Discard": "İmtina",
+  "Do you want to discard this?": "İmtina etmək istəyirsiniz?",
+  "Cancel": "Ləğv et",
+  "Tag Name": "Etiket adı",
+  "Enter Your Tag...": "Daxil et...",
+  "Your Tags": "Sənin etiketlərin",
+  "Save": "Yadda saxla",
+  "Your To Do List is Empty": "Siyahı boşdur",
+  "Search To Do": "To Do Axtar",
+  "Title": "Başlıq",
+  "Tag": "Etiket",
+  "Today": "Bu gün",
+  "Notification": "Bildiriş",
+
+  "Expired": "Vaxtı bitmiş"
+
+
+
+
+
+
+}

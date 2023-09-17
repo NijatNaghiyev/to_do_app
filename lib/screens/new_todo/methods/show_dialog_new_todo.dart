@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -9,13 +10,19 @@ Future<void> buildShowDialogNewTodo(BuildContext context, WidgetRef ref) {
     context: context,
     builder: (BuildContext dialogContext) {
       return AlertDialog.adaptive(
-        title: const Text('Discard'),
-        content: const Text('Do you want to discard this?'),
+        shape: const OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.all(
+            Radius.circular(12),
+          ),
+        ),
+        title: Text('Discard'.tr(context: context)),
+        content: Text('Do you want to discard this?'.tr(context: context)),
         actions: <Widget>[
           TextButton(
-            child: const Text(
-              'Discard',
-              style: TextStyle(
+            child: Text(
+              'Discard'.tr(context: context),
+              style: const TextStyle(
                 color: Colors.black,
               ),
             ),
@@ -41,8 +48,8 @@ Future<void> buildShowDialogNewTodo(BuildContext context, WidgetRef ref) {
             onPressed: () {
               Navigator.of(dialogContext).pop();
             },
-            child: const Text(
-              'Cancel',
+            child: Text(
+              'Cancel'.tr(context: context),
             ),
           ),
         ],

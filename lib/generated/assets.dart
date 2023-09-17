@@ -12,4 +12,7 @@ class Assets {
   static const String alarmsRingtone58761 = 'assets/alarms/ringtone-58761.mp3';
   static const String imagesEmptyList = 'assets/images/empty_list.svg';
   static const String imagesSearch = 'assets/images/search.svg';
+  static const String imagesUndrawNotifyRe65on = 'assets/images/notify.svg';
+  static const String translationsAzAZ = 'assets/translations/az-AZ.json';
+  static const String translationsEnUS = 'assets/translations/en-US.json';
 }

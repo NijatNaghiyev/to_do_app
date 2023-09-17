@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class SaveButton extends StatelessWidget {
@@ -18,8 +19,8 @@ class SaveButton extends StatelessWidget {
               ),
             ),
             onPressed: saveToDo,
-            child: const Text(
-              'Save',
+            child: Text(
+              'Save'.tr(context: context),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,

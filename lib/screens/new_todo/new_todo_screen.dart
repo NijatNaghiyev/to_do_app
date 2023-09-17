@@ -12,14 +12,15 @@ import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/ToDoForm.dart
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/color_widget.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/save_button.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/tags_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
 
 import '../../data/model/tag_model.dart';
 import '../../providers/form_providers.dart';
 import '../../providers/isCreating_provider.dart';
 import '../../providers/selected_date.dart';
+import '../../providers/selected_languages_provider.dart';
 import '../../providers/selected_time.dart';
 import '../../providers/todo_list_provider.dart';
 import 'methods/app_bar_new_todo.dart';
@@ -42,7 +43,6 @@ class NewTodo extends ConsumerStatefulWidget {
 }
 
 class _NewTodoState extends ConsumerState<NewTodo> {
-  DateFormat dateFormat = DateFormat('dd MMMM yyyy');
   var timeFormat = DateFormat.Hm();
 
   bool loading = false;
@@ -119,7 +119,8 @@ class _NewTodoState extends ConsumerState<NewTodo> {
   AlarmSettings buildAlarmSettings() {
     final id = creating
         ? DateTime.now().millisecondsSinceEpoch % 100000
-        : widget.todoModel?.alarmSettings!.id;
+        : widget.todoModel?.alarmSettings?.id ??
+            DateTime.now().millisecondsSinceEpoch % 100000;
 
     DateTime dateTime = DateTime(
       ref.watch(selectedDateProvider)!.year,
@@ -135,7 +136,7 @@ class _NewTodoState extends ConsumerState<NewTodo> {
     }
 
     alarmSettings = AlarmSettings(
-      id: id!,
+      id: id,
       dateTime: dateTime,
       assetAudioPath: 'assets/alarms/marimba.mp3',
       loopAudio: true,
@@ -188,6 +189,8 @@ class _NewTodoState extends ConsumerState<NewTodo> {
   Widget build(BuildContext context) {
     var selectedDate = ref.watch(selectedDateProvider);
     var selectedTime = ref.watch(selectedTimeProvider);
+    var selectedLanguage = ref.watch(selectedLanguageProvider);
+    DateFormat dateFormat = DateFormat('dd MMMM yyyy', selectedLanguage);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -219,25 +222,22 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                     Icon(Icons.edit_calendar),
                   ],
                 ),
-                title: const Text('Date'),
+                title: Text('Date'.tr(context: context)),
                 subtitle: selectedDate == null
-                    ? const Text('No date selected')
+                    ? Text('No date selected'.tr(context: context))
                     : Text(
                         dateFormat.format(selectedDate),
                       ),
                 value: selectedDate != null,
                 onChanged: (value) {
                   showDatePicker(
+                    locale: Localizations.localeOf(context),
                     context: context,
                     initialDate: DateTime.now(),
-                    firstDate: DateTime.now().subtract(
-                      const Duration(
-                        days: 7,
-                      ),
-                    ),
+                    firstDate: DateTime.now(),
                     lastDate: DateTime.now().add(
                       const Duration(
-                        days: 365 * 3,
+                        days: 365 * 5,
                       ),
                     ),
                   ).then(
@@ -267,9 +267,9 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                     Icon(Icons.alarm_add),
                   ],
                 ),
-                title: const Text('Alarm'),
+                title: Text('Alarm'.tr(context: context)),
                 subtitle: selectedTime == null
-                    ? const Text('No time selected')
+                    ? Text('No time selected'.tr(context: context))
                     : Text(
                         timeFormat.format(
                           DateTime(
@@ -297,7 +297,9 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                     initialTime: TimeOfDay.now(),
                   ).then(
                     (value) {
-                      if (value != null && selectedDate == null) {
+                      if (value != null &&
+                          (selectedDate == null ||
+                              selectedDate.isBefore(DateTime.now()))) {
                         ref
                             .read(selectedDateProvider.notifier)
                             .update((state) => state = DateTime.now());

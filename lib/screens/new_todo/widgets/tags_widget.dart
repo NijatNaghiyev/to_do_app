@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:animations/animations.dart';
 import 'package:codelandia_to_do_riverpod/constant/sized_box.dart';
 import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
-import 'package:codelandia_to_do_riverpod/providers/isCreating_provider.dart';
 import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
 import 'package:codelandia_to_do_riverpod/screens/tags_adding_screen/tags_adding_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -53,11 +53,11 @@ class _TagsWidgetState extends ConsumerState<TagsWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(
-          padding: EdgeInsets.all(12.0),
+        Padding(
+          padding: const EdgeInsets.all(12.0),
           child: Text(
-            'Tags',
-            style: TextStyle(
+            'Tags'.tr(context: context),
+            style: const TextStyle(
               color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 24,

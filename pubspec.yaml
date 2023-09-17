@@ -16,7 +16,7 @@ dependencies:
     sdk: flutter
 
   flutter_riverpod: ^2.4.0
-  google_fonts: ^5.1.0
+  google_fonts: ^6.0.0
   font_awesome_flutter: ^10.5.0
   uuid: ^3.0.7
   intl: ^0.18.1
@@ -25,6 +25,8 @@ dependencies:
   flutter_svg: ^2.0.7
   hive_flutter: ^1.1.0
   flutter_slidable: ^3.0.0
+  easy_localization: ^3.0.3
+  fl_chart: ^0.63.0
 
   cupertino_icons: ^1.0.6
 
@@ -47,6 +49,6 @@ flutter:
   assets:
     - assets/alarms/
     - assets/images/
-    - assets/images/search.svg
+    - assets/translations/
   #   - images/a_dot_ham.jpeg
 

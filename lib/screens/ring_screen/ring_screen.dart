@@ -1,4 +1,5 @@
 import 'package:alarm/alarm.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AlarmRingScreen extends StatelessWidget {
@@ -15,7 +16,9 @@ class AlarmRingScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              "You alarm (${alarmSettings.notificationTitle}) is ringing...",
+              "You alarm ({}) is ringing...".tr(
+                  args: ['${alarmSettings.notificationTitle}'],
+                  context: context),
               style: Theme.of(context).textTheme.titleLarge,
             ),
             const Text("🔔", style: TextStyle(fontSize: 50)),
@@ -40,7 +43,7 @@ class AlarmRingScreen extends StatelessWidget {
                     ).then((_) => Navigator.pop(context));
                   },
                   child: Text(
-                    "Snooze",
+                    "Snooze".tr(context: context),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
@@ -50,7 +53,7 @@ class AlarmRingScreen extends StatelessWidget {
                         .then((_) => Navigator.pop(context));
                   },
                   child: Text(
-                    "Stop",
+                    "Stop".tr(context: context),
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
