@@ -24,7 +24,7 @@ class FloatActionButton extends ConsumerWidget {
       ),
       openBuilder: (context, action) => NewTodo(
         todoModel: null,
-        title: 'New To Do'.tr(context: context),
+        appBarTitle: 'New To Do'.tr(context: context),
       ),
       closedBuilder: (context, action) {
         return Container(

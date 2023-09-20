@@ -16,12 +16,11 @@ dependencies:
     sdk: flutter
 
   flutter_riverpod: ^2.4.0
-  google_fonts: ^6.0.0
   font_awesome_flutter: ^10.5.0
   uuid: ^3.0.7
   intl: ^0.18.1
   animations: ^2.0.8
-  alarm: ^1.2.2
+  alarm: ^1.2.0
   flutter_svg: ^2.0.7
   hive_flutter: ^1.1.0
   flutter_slidable: ^3.0.0

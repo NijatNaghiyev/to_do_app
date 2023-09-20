@@ -1,8 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/adapters.dart';
+
+import '../data/hive/hive.dart';
 
 var selectedLanguageProvider = StateProvider(
-  (ref) => Hive.box('todoBox').get(
+  (ref) => box.get(
     'selectedLanguage',
     defaultValue: 'en_US',
   ),

@@ -114,9 +114,11 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
             TextFormField(
               controller: descTextController,
               onSaved: (newValue) {
-                ref
-                    .watch(descriptionProvider.notifier)
-                    .update((state) => state = newValue);
+                if (newValue != null && newValue.trim().isNotEmpty) {
+                  ref.watch(descriptionProvider.notifier).update(
+                        (state) => state = newValue,
+                      );
+                }
                 descTextController?.text = newValue!;
               },
               onChanged: (value) {

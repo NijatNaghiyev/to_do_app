@@ -6,15 +6,17 @@ var expiredProvider = StateProvider<int>(
     var todoList = ref.watch(todoListProvider);
 
     return todoList
-        .where((todoModel) =>
-            (todoModel.deadline == null
-                ? false
-                : todoModel.deadline!.isBefore(
-                    DateTime.now().subtract(
-                      const Duration(days: 1),
-                    ),
-                  )) &&
-            !todoModel.isDone)
+        .where(
+          (todoModel) =>
+              (todoModel.deadline == null
+                  ? false
+                  : todoModel.deadline!.isBefore(
+                      DateTime.now().subtract(
+                        const Duration(days: 1),
+                      ),
+                    )) &&
+              !todoModel.isDone,
+        )
         .toList()
         .length;
   },

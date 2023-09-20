@@ -88,7 +88,7 @@ class ToDoCardWidget extends ConsumerWidget {
                                       MaterialPageRoute(
                                         builder: (context) {
                                           return NewTodo(
-                                            title: 'Edit To Do',
+                                            appBarTitle: 'Edit To Do',
                                             todoModel: todoModel,
                                             index: indexCard,
                                           );
@@ -120,7 +120,8 @@ class ToDoCardWidget extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      if (todoModel.description != null)
+                      if (todoModel.description != null &&
+                          todoModel.description!.isNotEmpty)
                         Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 16,

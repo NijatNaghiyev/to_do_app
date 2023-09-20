@@ -4,6 +4,8 @@ import 'package:hive_flutter/adapters.dart';
 import '../model/todo_model.dart';
 import 'hive_adapters/alarm_settings_adapters.dart';
 
+late final box;
+
 void initHive() async {
   await Hive.initFlutter();
   Hive

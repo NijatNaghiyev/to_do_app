@@ -10,6 +10,7 @@ import 'package:codelandia_to_do_riverpod/providers/tags_list.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/home_screen.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/ToDoForm.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/color_widget.dart';
+import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/date_picker_theme.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/save_button.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/widgets/tags_widget.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../data/model/tag_model.dart';
+import '../../generated/assets.dart';
 import '../../providers/form_providers.dart';
 import '../../providers/isCreating_provider.dart';
 import '../../providers/selected_date.dart';
@@ -29,13 +31,13 @@ import 'methods/build_reset_save_data.dart';
 class NewTodo extends ConsumerStatefulWidget {
   final int? index;
   final TodoModel? todoModel;
-  final String title;
+  final String appBarTitle;
 
   const NewTodo({
     super.key,
     this.index,
     this.todoModel,
-    required this.title,
+    required this.appBarTitle,
   });
 
   @override
@@ -138,13 +140,13 @@ class _NewTodoState extends ConsumerState<NewTodo> {
     alarmSettings = AlarmSettings(
       id: id,
       dateTime: dateTime,
-      assetAudioPath: 'assets/alarms/marimba.mp3',
+      assetAudioPath: Assets.alarmsMarimba,
       loopAudio: true,
       vibrate: true,
       volumeMax: true,
       fadeDuration: 0.0,
-      notificationTitle: !creating ? widget.todoModel!.title : title,
-      notificationBody: !creating ? widget.todoModel!.description : description,
+      notificationTitle: title,
+      notificationBody: description ?? 'Alarm',
       stopOnNotificationOpen: true,
       enableNotificationOnKill: true,
     );
@@ -194,7 +196,7 @@ class _NewTodoState extends ConsumerState<NewTodo> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: buildAppBarNewTodo(context, ref, widget.title),
+      appBar: buildAppBarNewTodo(context, ref, widget.appBarTitle),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(
@@ -214,8 +216,8 @@ class _NewTodoState extends ConsumerState<NewTodo> {
               ),
               elevation: 0,
               child: SwitchListTile.adaptive(
-                activeTrackColor: Colors.black,
-                activeColor: ref.watch(selectedColor),
+                activeTrackColor: Colors.grey,
+                activeColor: Colors.black,
                 secondary: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -231,6 +233,11 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                 value: selectedDate != null,
                 onChanged: (value) {
                   showDatePicker(
+                    builder: (context, child) {
+                      return PickerThemeCustom(
+                        child: child,
+                      );
+                    },
                     locale: Localizations.localeOf(context),
                     context: context,
                     initialDate: DateTime.now(),
@@ -241,8 +248,15 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                       ),
                     ),
                   ).then(
-                    (value) =>
-                        ref.read(selectedDateProvider.notifier).state = value,
+                    (value) {
+                      if (value == null) {
+                        ref
+                            .watch(selectedTimeProvider.notifier)
+                            .update((state) => null);
+                      }
+                      return ref.read(selectedDateProvider.notifier).state =
+                          value;
+                    },
                   );
                   deadline = selectedDate;
                 },
@@ -259,8 +273,8 @@ class _NewTodoState extends ConsumerState<NewTodo> {
               ),
               elevation: 0,
               child: SwitchListTile.adaptive(
-                activeTrackColor: Colors.black,
-                activeColor: ref.watch(selectedColor),
+                activeTrackColor: Colors.grey,
+                activeColor: Colors.black,
                 secondary: const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -286,11 +300,13 @@ class _NewTodoState extends ConsumerState<NewTodo> {
                   showTimePicker(
                     initialEntryMode: TimePickerEntryMode.input,
                     builder: (context, Widget? child) {
-                      return MediaQuery(
-                        data: MediaQuery.of(context).copyWith(
-                          alwaysUse24HourFormat: true,
+                      return PickerThemeCustom(
+                        child: MediaQuery(
+                          data: MediaQuery.of(context).copyWith(
+                            alwaysUse24HourFormat: true,
+                          ),
+                          child: child!,
                         ),
-                        child: child!,
                       );
                     },
                     context: context,

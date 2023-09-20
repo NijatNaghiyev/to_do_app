@@ -24,9 +24,8 @@ class DrawerScreen extends ConsumerWidget {
         ),
         child: SizedBox(
           height: MediaQuery.of(context).size.height * 0.7,
-          child: ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               DrawerHeader(
                 decoration: const BoxDecoration(
@@ -109,26 +108,31 @@ class DrawerScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              ListTile(
-                onTap: () {},
-                leading: const Icon(
-                  Icons.info,
-                  color: Colors.black,
-                ),
-                title: Text(
-                  'About'.tr(),
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Text(
-                  'Version 1.0.0'.tr(),
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w500,
+              // ListTile(
+              //   onTap: () {},
+              //   leading: const Icon(
+              //     Icons.info,
+              //     color: Colors.black,
+              //   ),
+              //   title: Text(
+              //     'About'.tr(),
+              //     style: const TextStyle(
+              //       color: Colors.black,
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // ),
+              const Spacer(),
+
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Text(
+                    'Version 1.0.0'.tr(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

@@ -1,12 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/adapters.dart';
 
+import '../data/hive/hive.dart';
 import '../data/model/tag_model.dart';
 
 class TagNotifier extends StateNotifier<List<TagModel>> {
   TagNotifier()
       : super(
-          Hive.box('todoBox').get(
+          box.get(
             'tags',
             defaultValue: <TagModel>[],
           ).cast<TagModel>(),
@@ -21,13 +21,13 @@ class TagNotifier extends StateNotifier<List<TagModel>> {
   void addTag(String tagName) {
     state = [...state, TagModel(tagName: '#$tagName')];
 
-    Hive.box('todoBox').put('tags', state);
+    box.put('tags', state);
   }
 
   void removeTag(TagModel tagModel) {
     state = state.where((element) => element != tagModel).toList();
 
-    Hive.box('todoBox').put('tags', state);
+    box.put('tags', state);
   }
 }
 

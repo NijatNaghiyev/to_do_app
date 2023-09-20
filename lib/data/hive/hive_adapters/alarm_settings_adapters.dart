@@ -3,7 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class AlarmSettingsAdapter extends TypeAdapter<AlarmSettings> {
   @override
-  final typeId = 4;
+  final typeId = 5;
 
   @override
   void write(BinaryWriter writer, AlarmSettings obj) {
