@@ -37,8 +37,9 @@
   "Tag": "Etiket",
   "Today": "Bu gün",
   "Notification": "Bildiriş",
+  "Expired": "Vaxtı bitmiş",
+  "Today: {}" : "Bu gün: {}"
 
-  "Expired": "Vaxtı bitmiş"
 
 
 

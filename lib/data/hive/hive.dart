@@ -7,12 +7,12 @@ import 'hive_adapters/alarm_settings_adapters.dart';
 late final box;
 
 void initHive() async {
-  await Hive.initFlutter();
+  // await Hive.initFlutter();
   Hive
     ..registerAdapter(TagModelAdapter())
     ..registerAdapter(ColorAdapter())
     ..registerAdapter(TimeOfDayAdapter())
     ..registerAdapter(AlarmSettingsAdapter())
     ..registerAdapter(TodoModelAdapter());
-  await Hive.openBox('todoBox');
+  // await Hive.openBox('todoBox');
 }

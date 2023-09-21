@@ -13,6 +13,8 @@ class Assets {
   static const String imagesEmptyList = 'assets/images/empty_list.svg';
   static const String imagesNotify = 'assets/images/notify.svg';
   static const String imagesSearch = 'assets/images/search.svg';
+  static const String lottiesAnimationLmsxlbga =
+      'assets/lotties/animation_lmsxlbga.json';
   static const String translationsAzAZ = 'assets/translations/az-AZ.json';
   static const String translationsEnUS = 'assets/translations/en-US.json';
 }

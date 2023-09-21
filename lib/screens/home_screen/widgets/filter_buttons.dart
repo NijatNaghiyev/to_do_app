@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:alarm/alarm.dart';
 import 'package:codelandia_to_do_riverpod/providers/filters_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +43,6 @@ class FilterButtons extends ConsumerWidget {
       ),
       onPressed: () {
         ref.watch(filterProvider.notifier).update((state) => filter);
-        log(Alarm.getAlarms().toString());
       },
       child: Text(
         title.tr(context: context),

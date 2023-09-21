@@ -54,6 +54,9 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               controller: titleTextController,
               validator: (value) {
                 if (value == null ||
@@ -112,6 +115,9 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
             ),
             kSizedBoxH20,
             TextFormField(
+              onTapOutside: (event) {
+                FocusManager.instance.primaryFocus?.unfocus();
+              },
               controller: descTextController,
               onSaved: (newValue) {
                 if (newValue != null && newValue.trim().isNotEmpty) {

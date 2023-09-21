@@ -4,6 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../providers/today_todo_provider.dart';
+
 class WelcomeBarWidget extends ConsumerWidget {
   const WelcomeBarWidget({
     super.key,
@@ -11,6 +13,7 @@ class WelcomeBarWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    var intTodayTodo = ref.watch(todayTodoProvider);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
@@ -18,7 +21,7 @@ class WelcomeBarWidget extends ConsumerWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.7,
             child: Text(
-              'Welcome Back!'.tr(context: context),
+              'Today: {}'.tr(context: context, args: [intTodayTodo.toString()]),
               style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
@@ -28,6 +31,12 @@ class WelcomeBarWidget extends ConsumerWidget {
           ),
           const Spacer(),
           OpenContainer(
+            closedShape: const OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.all(
+                Radius.circular(26),
+              ),
+            ),
             closedElevation: 0,
             transitionDuration: const Duration(milliseconds: 500),
             closedBuilder: (context, action) => const CircleAvatar(
@@ -37,6 +46,11 @@ class WelcomeBarWidget extends ConsumerWidget {
                 Icons.search,
                 color: Colors.white,
                 size: 30,
+              ),
+            ),
+            openShape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(26),
               ),
             ),
             openBuilder: (context, action) => const SearchScreen(),

@@ -1,5 +1,5 @@
 import 'package:alarm/alarm.dart';
-import 'package:codelandia_to_do_riverpod/screens/home_screen/home_screen.dart';
+import 'package:codelandia_to_do_riverpod/screens/splash_screen/splash.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,20 +11,16 @@ import 'data/hive/hive.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  initHive();
-
+  /// Initialize Hive
   await Hive.initFlutter();
-  // Hive
-  //   ..registerAdapter(TagModelAdapter())
-  //   ..registerAdapter(ColorAdapter())
-  //   ..registerAdapter(TimeOfDayAdapter())
-  //   ..registerAdapter(AlarmSettingsAdapter())
-  //   ..registerAdapter(TodoModelAdapter());
+  initHive();
   await Hive.openBox('todoBox');
-
   box = Hive.box('todoBox');
+
+  /// Initialize Easy Localization
   await EasyLocalization.ensureInitialized();
 
+  /// Initialize Alarm
   await Alarm.init(showDebugLogs: true);
 
   SystemChrome.setPreferredOrientations([
@@ -68,7 +64,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         scaffoldBackgroundColor: Colors.white,
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -37,7 +37,8 @@
   "Tag": "Tag",
   "Today": "Today",
   "Notification": "Notification",
-  "Expired": "Expired"
+  "Expired": "Expired",
+  "Today: {}" : "Today: {}"
 
 
 
