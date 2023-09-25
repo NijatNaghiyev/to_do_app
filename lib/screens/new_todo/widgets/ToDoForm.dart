@@ -13,6 +13,7 @@ final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 class ToDoForm extends ConsumerStatefulWidget {
   final TodoModel? todoModel;
+
   const ToDoForm({
     required this.todoModel,
     super.key,
@@ -29,12 +30,17 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration.zero, () {
-      if (!ref.watch(isCreatingProvider)) {
-        titleTextController.text = widget.todoModel!.title;
-        descTextController?.text = widget.todoModel!.description!;
-      }
-    });
+    Timer(
+      Duration.zero,
+      () {
+        if (!ref.watch(isCreatingProvider)) {
+          titleTextController.text = widget.todoModel!.title;
+          if (widget.todoModel!.description != null) {
+            descTextController?.text = widget.todoModel!.description!;
+          }
+        }
+      },
+    );
   }
 
   @override

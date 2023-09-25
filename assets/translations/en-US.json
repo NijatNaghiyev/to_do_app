@@ -15,7 +15,7 @@
   "Title*": "Title*",
   "Enter your title": "Enter your title",
   "Description": "Description",
-  "Enter your description" : "Enter your description",
+  "Enter your description": "Enter your description",
   "You alarm ({}) is ringing...": "You alarm ({}) is ringing...",
   "Snooze": "Snooze",
   "Stop": "Stop",
@@ -38,9 +38,6 @@
   "Today": "Today",
   "Notification": "Notification",
   "Expired": "Expired",
-  "Today: {}" : "Today: {}"
-
-
-
-
+  "Today: {}": "Today: {}",
+  "Delete": "Delete"
 }

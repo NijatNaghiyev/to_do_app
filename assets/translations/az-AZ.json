@@ -15,7 +15,7 @@
   "Title*": "Başlıq*",
   "Enter your title": "Başlığınızı daxil edin",
   "Description": "İzahat",
-  "Enter your description" : "İzahatınızı daxil edin",
+  "Enter your description": "İzahatınızı daxil edin",
   "You alarm ({}) is ringing...": "Zəng ({}) çalır...",
   "Snooze": "Mürgüləmə",
   "Stop": "Dayandır",
@@ -38,12 +38,6 @@
   "Today": "Bu gün",
   "Notification": "Bildiriş",
   "Expired": "Vaxtı bitmiş",
-  "Today: {}" : "Bu gün: {}"
-
-
-
-
-
-
-
+  "Today: {}": "Bu gün: {}",
+  "Delete": "Sil"
 }

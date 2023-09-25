@@ -18,6 +18,12 @@ class SearchScreen extends ConsumerStatefulWidget {
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
   @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var selectedDropDown = ref.watch(searchFilterProvider);
     var searchList = ref.watch(searchProvider);

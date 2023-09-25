@@ -3,15 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/tags_list.dart';
 
-TextEditingController textEditingController = TextEditingController();
+TextEditingController tagsEditingController = TextEditingController();
 
 void toAddTag(WidgetRef ref) {
-  if (textEditingController.text.isNotEmpty) {
+  if (tagsEditingController.text.isNotEmpty) {
     ref.read(tagsListProvider.notifier).addTag(
-          textEditingController.text.trim(),
+          tagsEditingController.text.trim(),
         );
   }
-  textEditingController.clear();
+  tagsEditingController.clear();
 
   FocusManager.instance.primaryFocus?.unfocus();
 }

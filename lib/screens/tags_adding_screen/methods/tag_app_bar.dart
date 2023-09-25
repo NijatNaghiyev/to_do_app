@@ -8,7 +8,7 @@ AppBar buildTagAddingScreenAppBar(BuildContext context) {
     centerTitle: true,
     title: Text(
       'Your Tags'.tr(context: context),
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.black,
         fontWeight: FontWeight.bold,
       ),

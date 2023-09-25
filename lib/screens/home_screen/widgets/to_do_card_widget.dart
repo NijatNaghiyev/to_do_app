@@ -2,6 +2,7 @@ import 'package:codelandia_to_do_riverpod/data/model/todo_model.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/tags_on_card.dart';
 import 'package:codelandia_to_do_riverpod/screens/home_screen/widgets/todo_card_icon_button.dart';
 import 'package:codelandia_to_do_riverpod/screens/new_todo/new_todo_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -16,8 +17,10 @@ class ToDoCardWidget extends ConsumerWidget {
     required this.todoModel,
     required this.indexCard,
   });
+
   final int indexCard;
   final TodoModel todoModel;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return AnimatedSwitcher(
@@ -46,7 +49,7 @@ class ToDoCardWidget extends ConsumerWidget {
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
                 icon: Icons.delete,
-                label: 'Delete',
+                label: 'Delete'.tr(context: context),
               ),
             ],
           ),

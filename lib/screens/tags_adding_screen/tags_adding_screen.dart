@@ -7,12 +7,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'methods/tag_app_bar.dart';
 import 'methods/to_add_tag.dart';
 
-class TagsAddingScreen extends ConsumerWidget {
+class TagsAddingScreen extends ConsumerStatefulWidget {
   const TagsAddingScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ScrollController scrollController = ScrollController();
+  ConsumerState<TagsAddingScreen> createState() => _TagsAddingScreenState();
+}
+
+class _TagsAddingScreenState extends ConsumerState<TagsAddingScreen> {
+  ScrollController scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    scrollController.dispose();
+    tagsEditingController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     var tagsList = ref.watch(tagsListProvider);
 
     return Scaffold(
@@ -28,7 +41,7 @@ class TagsAddingScreen extends ConsumerWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: TextField(
-                      controller: textEditingController,
+                      controller: tagsEditingController,
                       decoration: InputDecoration(
                         prefixText: '#',
                         focusedBorder: OutlineInputBorder(

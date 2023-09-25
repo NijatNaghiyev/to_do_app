@@ -13,16 +13,6 @@ var filterListProvider = StateProvider<List<TodoModel>>(
     switch (ref.watch(filterProvider)) {
       case Filter.all:
         return ref.watch(todoListProvider);
-      // [
-      //   ...ref
-      //       .watch(todoListProvider)
-      //       .where((element) => !element.isDone)
-      //       .toList(),
-      //   ...ref
-      //       .watch(todoListProvider)
-      //       .where((element) => element.isDone)
-      //       .toList(),
-      // ]
       case Filter.ongoing:
         return ref
             .watch(todoListProvider)
