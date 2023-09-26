@@ -7,9 +7,8 @@ import '../../../providers/search_provider.dart';
 import '../../../providers/todo_list_provider.dart';
 import 'filter_methods.dart';
 
-TextEditingController searchController = TextEditingController();
-AppBar buildAppBarSearch(
-    BuildContext context, SearchFilter selectedDropDown, WidgetRef ref) {
+AppBar buildAppBarSearch(BuildContext context, SearchFilter selectedDropDown,
+    WidgetRef ref, TextEditingController searchController) {
   /// When [todoListProvider] changes, this method will be called to change the [searchProvider] based on the [searchFilterProvider].
   ref.listen(todoListProvider, (previous, next) {
     switch (ref.watch(searchFilterProvider)) {

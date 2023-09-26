@@ -45,6 +45,8 @@ class NewTodo extends ConsumerStatefulWidget {
 }
 
 class _NewTodoState extends ConsumerState<NewTodo> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   var timeFormat = DateFormat.Hm();
 
   bool loading = false;
@@ -203,6 +205,7 @@ class _NewTodoState extends ConsumerState<NewTodo> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ToDoForm(
+              formKey: formKey,
               todoModel: widget.todoModel,
             ),
             kSizedBoxH20,

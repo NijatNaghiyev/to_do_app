@@ -9,12 +9,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../constant/sized_box.dart';
 import '../../../providers/isCreating_provider.dart';
 
-final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
 class ToDoForm extends ConsumerStatefulWidget {
   final TodoModel? todoModel;
+  final GlobalKey<FormState> formKey;
 
   const ToDoForm({
+    required this.formKey,
     required this.todoModel,
     super.key,
   });
@@ -53,7 +53,7 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: formKey,
+      key: widget.formKey,
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(

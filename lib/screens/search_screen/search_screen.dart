@@ -17,6 +17,8 @@ class SearchScreen extends ConsumerStatefulWidget {
 }
 
 class _SearchScreenState extends ConsumerState<SearchScreen> {
+  TextEditingController searchController = TextEditingController();
+
   @override
   void dispose() {
     super.dispose();
@@ -29,7 +31,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     var searchList = ref.watch(searchProvider);
     var todoList = ref.watch(todoListProvider);
     return Scaffold(
-      appBar: buildAppBarSearch(context, selectedDropDown, ref),
+      appBar:
+          buildAppBarSearch(context, selectedDropDown, ref, searchController),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(

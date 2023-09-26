@@ -177,9 +177,7 @@ class ToDoCardWidget extends ConsumerWidget {
               if ((todoModel.deadline == null
                       ? false
                       : todoModel.deadline!.isBefore(
-                          DateTime.now().subtract(
-                            const Duration(days: 1),
-                          ),
+                          DateTime.now(),
                         )) &&
                   !todoModel.isDone)
                 const Positioned(
