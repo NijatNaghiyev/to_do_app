@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 AppBar buildAppBarNewTodo(BuildContext context, WidgetRef ref, String title) {
   return AppBar(
     leading: IconButton(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       onPressed: () {
         buildShowDialogNewTodo(context, ref);
       },
@@ -16,7 +18,7 @@ AppBar buildAppBarNewTodo(BuildContext context, WidgetRef ref, String title) {
     elevation: 0,
     backgroundColor: Colors.white,
     centerTitle: true,
-    title:  Text(
+    title: Text(
       title,
       style: const TextStyle(
         color: Colors.black,

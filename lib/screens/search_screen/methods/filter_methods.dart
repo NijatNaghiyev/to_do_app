@@ -22,7 +22,7 @@ void filterTitle(String value, WidgetRef ref) {
             .watch(todoListProvider)
             .where(
               (element) => element.title.toLowerCase().contains(
-                    value.toLowerCase(),
+                    value.toLowerCase().trim(),
                   ),
             )
             .toList(),
@@ -40,7 +40,7 @@ void filterDescription(String value, WidgetRef ref) {
               (element) => element.description == null
                   ? false
                   : element.description!.toLowerCase().contains(
-                        value.toLowerCase(),
+                        value.toLowerCase().trim(),
                       ),
             )
             .toList(),
@@ -55,7 +55,7 @@ void filterTag(String value, WidgetRef ref) {
   ref.watch(todoListProvider).forEach(
     (element) {
       for (var e in element.tags) {
-        if (e.tagName.toLowerCase().contains(value.toLowerCase())) {
+        if (e.tagName.toLowerCase().contains(value.toLowerCase().trim())) {
           setList.add(element);
         }
       }
@@ -72,15 +72,15 @@ void filterAll(String value, WidgetRef ref) {
 
   /// [boolFilterAll] is a method that returns a [bool] based on whether the [value] passed in is in the [TodoModel] or not.
   bool boolFilterAll(TodoModel element) {
-    return (element.title.toLowerCase().contains(value.toLowerCase()) ||
+    return (element.title.toLowerCase().contains(value.toLowerCase().trim()) ||
         (element.description == null
             ? false
             : element.description!.toLowerCase().contains(
-                  value.toLowerCase(),
+                  value.toLowerCase().trim(),
                 )) ||
         (element.tags.any(
           (element) => element.tagName.toLowerCase().contains(
-                value.toLowerCase(),
+                value.toLowerCase().trim(),
               ),
         )));
   }

@@ -79,17 +79,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         ShortcutItem(
           type: 'Add To Do',
           localizedTitle: 'Add To Do'.tr(context: context),
-          icon: 'image1',
+          icon: 'plus1',
         ),
         ShortcutItem(
           type: 'Search To Do',
           localizedTitle: 'Search To Do'.tr(context: context),
-          icon: 'image1',
+          icon: 'search1',
         ),
         ShortcutItem(
           type: 'Chart',
           localizedTitle: 'Chart'.tr(context: context),
-          icon: 'image1',
+          icon: 'chart1',
         ),
       ],
     );

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class SaveButton extends StatelessWidget {
   final Function() saveToDo;
+
   const SaveButton({super.key, required this.saveToDo});
 
   @override
@@ -14,16 +15,26 @@ class SaveButton extends StatelessWidget {
         children: [
           ElevatedButton(
             style: const ButtonStyle(
+              shape: MaterialStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(16),
+                  ),
+                ),
+              ),
               backgroundColor: MaterialStatePropertyAll(
                 Colors.black,
               ),
             ),
             onPressed: saveToDo,
-            child: Text(
-              'Save'.tr(context: context),
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
+            child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Text(
+                'Save'.tr(context: context),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
             ),
           ),

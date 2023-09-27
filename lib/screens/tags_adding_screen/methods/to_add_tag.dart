@@ -3,9 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/tags_list.dart';
 
-TextEditingController tagsEditingController = TextEditingController();
-
-void toAddTag(WidgetRef ref) {
+void toAddTag(WidgetRef ref, TextEditingController tagsEditingController) {
   if (tagsEditingController.text.isNotEmpty) {
     ref.read(tagsListProvider.notifier).addTag(
           tagsEditingController.text.trim(),

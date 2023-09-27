@@ -15,6 +15,8 @@ class TagsAddingScreen extends ConsumerStatefulWidget {
 }
 
 class _TagsAddingScreenState extends ConsumerState<TagsAddingScreen> {
+  TextEditingController tagsEditingController = TextEditingController();
+
   ScrollController scrollController = ScrollController();
 
   @override
@@ -75,14 +77,16 @@ class _TagsAddingScreenState extends ConsumerState<TagsAddingScreen> {
                         hintText: 'Enter Your Tag...'.tr(context: context),
                       ),
                       onSubmitted: (value) {
-                        toAddTag(ref);
+                        toAddTag(ref, tagsEditingController);
                       },
                     ),
                   ),
                   const Spacer(),
                   IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     onPressed: () {
-                      toAddTag(ref);
+                      toAddTag(ref, tagsEditingController);
                     },
                     icon: const Icon(
                       Icons.add,
@@ -116,6 +120,8 @@ class _TagsAddingScreenState extends ConsumerState<TagsAddingScreen> {
                     ),
                   ),
                   trailing: IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
                     onPressed: () {
                       ref.read(tagsListProvider.notifier).removeTag(
                             tagsList[index],

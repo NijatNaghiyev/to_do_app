@@ -13,13 +13,13 @@ AppBar buildAppBarSearch(BuildContext context, SearchFilter selectedDropDown,
   ref.listen(todoListProvider, (previous, next) {
     switch (ref.watch(searchFilterProvider)) {
       case SearchFilter.All:
-        filterAll(searchController.text, ref);
+        filterAll(searchController.text.trim(), ref);
       case SearchFilter.Title:
-        filterTitle(searchController.text, ref);
+        filterTitle(searchController.text.trim(), ref);
       case SearchFilter.Description:
-        filterDescription(searchController.text, ref);
+        filterDescription(searchController.text.trim(), ref);
       case SearchFilter.Tag:
-        filterTag(searchController.text, ref);
+        filterTag(searchController.text.trim(), ref);
     }
   });
 

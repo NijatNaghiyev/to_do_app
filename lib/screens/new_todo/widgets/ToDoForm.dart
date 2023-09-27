@@ -78,12 +78,12 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
                 ref
                     .watch(titleProvider.notifier)
                     .update((state) => state = newValue!);
-                titleTextController.text = newValue!;
+                titleTextController.text = newValue!.trim();
               },
               onChanged: (value) {
-                ref
-                    .watch(titleProvider.notifier)
-                    .update((state) => state = value);
+                ref.watch(titleProvider.notifier).update(
+                      (state) => state = value.trim(),
+                    );
               },
               maxLines: null,
               maxLength: 50,
@@ -128,15 +128,15 @@ class _ToDoFormState extends ConsumerState<ToDoForm> {
               onSaved: (newValue) {
                 if (newValue != null && newValue.trim().isNotEmpty) {
                   ref.watch(descriptionProvider.notifier).update(
-                        (state) => state = newValue,
+                        (state) => state = newValue.trim(),
                       );
                 }
                 descTextController?.text = newValue!;
               },
               onChanged: (value) {
-                ref
-                    .watch(descriptionProvider.notifier)
-                    .update((state) => state = value);
+                ref.watch(descriptionProvider.notifier).update(
+                      (state) => state = value.trim(),
+                    );
               },
               maxLines: null,
               decoration: InputDecoration(
