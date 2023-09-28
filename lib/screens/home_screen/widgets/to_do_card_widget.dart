@@ -174,12 +174,21 @@ class ToDoCardWidget extends ConsumerWidget {
               ),
 
               /// This is the code for the icon that appears when the deadline is passed
-              if ((todoModel.deadline == null
-                      ? false
-                      : todoModel.deadline!.isBefore(
-                          DateTime.now(),
-                        )) &&
-                  !todoModel.isDone)
+              if (((todoModel.deadline == null || todoModel.isDone)
+                  ? false
+                  : todoModel.deadline!.isBefore(
+                      DateTime(
+                        DateTime.now().year,
+                        DateTime.now().month,
+                        DateTime.now().day,
+                        23,
+                        59,
+                        59,
+                        999,
+                      ).subtract(
+                        const Duration(days: 1),
+                      ),
+                    )))
                 const Positioned(
                   top: -10,
                   right: -5,

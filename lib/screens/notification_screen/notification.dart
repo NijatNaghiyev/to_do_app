@@ -119,14 +119,21 @@ class NotificationScreen extends ConsumerWidget {
                   ),
                 ),
                 for (var todoModel in todoList)
-                  if ((todoModel.deadline == null
-                          ? false
-                          : todoModel.deadline!.isBefore(
-                              DateTime.now().subtract(
-                                const Duration(days: 1),
-                              ),
-                            )) &&
-                      !todoModel.isDone)
+                  if (((todoModel.deadline == null || todoModel.isDone)
+                      ? false
+                      : todoModel.deadline!.isBefore(
+                          DateTime(
+                            DateTime.now().year,
+                            DateTime.now().month,
+                            DateTime.now().day,
+                            23,
+                            59,
+                            59,
+                            999,
+                          ).subtract(
+                            const Duration(days: 1),
+                          ),
+                        )))
                     ToDoCardWidget(
                       todoModel: todoModel,
                       indexCard: todoList.indexOf(todoModel),
