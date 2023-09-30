@@ -1,8 +1,6 @@
 # To Do List APP
 
-This is a Flutter To-Do app that helps you manage your tasks effectively. It includes features like
-task alarms and notifications, a variety of languages, quick actions,charts for task statistics, and
-colorful task cards for a visually appealing experience.
+This is a Flutter To-Do app that helps you manage your tasks effectively. It includes features like task alarms and notifications, a variety of languages, quick actions,charts for task statistics, and colorful task cards for a visually appealing experience.
 
 
 
@@ -13,3 +11,4 @@ colorful task cards for a visually appealing experience.
 <img src="https://github.com/NijatNaghiyev/to_do_app/assets/121041954/356a2e22-6f8b-4fbf-b79b-b0baa873f724" width="350" height="650">
 <img src="https://github.com/NijatNaghiyev/to_do_app/assets/121041954/1e856552-ceb5-4de2-bfed-6357570a734e" width="350" height="650">
 <img src="https://github.com/NijatNaghiyev/to_do_app/assets/121041954/d5822b7c-853e-4786-a9ca-d9843edffd73" width="350" height="650">
+
